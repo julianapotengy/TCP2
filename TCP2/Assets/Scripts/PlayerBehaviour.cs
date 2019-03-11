@@ -9,6 +9,8 @@ public class PlayerBehaviour : MonoBehaviour
     private CharacterController charCont;
     private Light flight;
     private bool isLighting;
+
+    public GameObject phone;
     
 	void Start ()
     {
@@ -24,23 +26,29 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Movement()
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
-        float deltaY = Input.GetAxis("Vertical") * speed;
-        Vector3 movement = new Vector3(deltaX, 0, deltaY);
-        movement = Vector3.ClampMagnitude(movement, speed);
+        if(!phone.GetComponent<PhoneManager>().phoneMode)
+        {
+            float deltaX = Input.GetAxis("Horizontal") * speed;
+            float deltaY = Input.GetAxis("Vertical") * speed;
+            Vector3 movement = new Vector3(deltaX, 0, deltaY);
+            movement = Vector3.ClampMagnitude(movement, speed);
 
-        movement.y = gravity;
+            movement.y = gravity;
 
-        movement *= Time.deltaTime;
-        movement = transform.TransformDirection(movement);
-        charCont.Move(movement);
+            movement *= Time.deltaTime;
+            movement = transform.TransformDirection(movement);
+            charCont.Move(movement);
+        }
     }
 
     void Flashlight()
     {
-        if(Input.GetMouseButtonDown(1))
+        if(!phone.GetComponent<PhoneManager>().phoneMode)
         {
-            flight.enabled = !flight.enabled;
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
+            {
+                flight.enabled = !flight.enabled;
+            }
         }
     }
 }
