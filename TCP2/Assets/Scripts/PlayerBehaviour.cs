@@ -7,7 +7,7 @@ public class PlayerBehaviour : MonoBehaviour
     private float speed = 6.0f;
     private float gravity = -9.8f;
     private CharacterController charCont;
-    private Light flight;
+    private Light fLight;
     private bool isLighting;
 
     public GameObject phone;
@@ -15,7 +15,8 @@ public class PlayerBehaviour : MonoBehaviour
 	void Start ()
     {
         charCont = GetComponent<CharacterController>();
-        flight = GameObject.Find("Flashlight").GetComponent<Light>();
+        fLight = GameObject.Find("Flashlight").GetComponent<Light>();
+        fLight.enabled = false;
 	}
 	
 	void Update ()
@@ -47,7 +48,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
             {
-                flight.enabled = !flight.enabled;
+                fLight.enabled = !fLight.enabled;
             }
         }
     }

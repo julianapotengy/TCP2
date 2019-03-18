@@ -17,11 +17,11 @@ public class PhoneManager : MonoBehaviour
     public GameObject gameInter;
     [Header("Objeto da interface da galeria")]
     public GameObject galleryInter;
-    [Header("Objeto da interface da galeria")]
+    [Header("Objeto da interface da imagem")]
     public GameObject image1Inter;
 
-    private bool locked, inGallery, inMenu, inImage, big;
-    [HideInInspector] public bool phoneMode;
+    private bool locked, inGallery, inImage, big;
+    [HideInInspector] public bool phoneMode, inMenu;
 
     private void Start()
     {
