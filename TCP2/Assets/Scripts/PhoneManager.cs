@@ -19,8 +19,10 @@ public class PhoneManager : MonoBehaviour
     public GameObject galleryInter;
     [Header("Objeto da interface da imagem")]
     public GameObject image1Inter;
+    [Header("Objeto da interface do radar")]
+    public GameObject radarInter;
 
-    private bool locked, inGallery, inImage, big;
+    private bool locked, inGallery, inImage, big, inRadar;
     [HideInInspector] public bool phoneMode, inMenu;
 
     private void Start()
@@ -30,6 +32,7 @@ public class PhoneManager : MonoBehaviour
         inMenu = false;
         inImage = true;
         big = false;
+        inRadar = false;
         unlockedInter.SetActive(false);
         locked = true;
     }
@@ -65,6 +68,7 @@ public class PhoneManager : MonoBehaviour
             phoneMode = false;
             inGallery = false;
             inImage = false;
+            inRadar = false;
         }
         else if (!locked)
         {
@@ -92,6 +96,17 @@ public class PhoneManager : MonoBehaviour
             galleryInter.SetActive(false);
         }
 
+        if(inRadar)
+        {
+            gameInter.SetActive(false);
+            radarInter.SetActive(true);
+        }
+        else if(!inRadar)
+        {
+            gameInter.SetActive(true);
+            radarInter.SetActive(false);
+        }
+
         if (inMenu)
         {
             Time.timeScale = 0;
@@ -106,8 +121,8 @@ public class PhoneManager : MonoBehaviour
 
         if(big)
         {
-            this.gameObject.transform.localPosition = new Vector3(-0.95f, 0.52f, 2f);
-            this.gameObject.transform.localScale = new Vector3(0.14f, 2.2f * 2, 1.15f * 2);
+            this.gameObject.transform.localPosition = new Vector3(-1.1f, 0.52f, 2f);
+            this.gameObject.transform.localScale = new Vector3(0.14f * 2, 2.2f * 2, 1.15f * 2);
         }
         else if(!big)
         {
@@ -124,5 +139,10 @@ public class PhoneManager : MonoBehaviour
     public void Image1()
     {
         inImage = !inImage;
+    }
+
+    public void RadarButton()
+    {
+        inRadar = !inRadar;
     }
 }
