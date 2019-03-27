@@ -18,12 +18,13 @@ public class PhoneManager : MonoBehaviour
     [Header("Objeto da interface da galeria")]
     public GameObject galleryInter;
     [Header("Objeto da interface da imagem")]
-    public GameObject image1Inter;
+    public GameObject[] imageInter;
     [Header("Objeto da interface do radar")]
     public GameObject radarInter;
 
     private bool locked, inGallery, inImage, big, inRadar;
     [HideInInspector] public bool phoneMode, inMenu;
+    string imgLastClick;
 
     private void Start()
     {
@@ -83,15 +84,37 @@ public class PhoneManager : MonoBehaviour
             galleryInter.SetActive(true);
             if (inImage)
             {
-                image1Inter.SetActive(true);
+                if(imgLastClick == "Image0")
+                {
+                    imageInter[0].SetActive(true);
+                }
+                if(imgLastClick == "Image1")
+                {
+                    imageInter[1].SetActive(true);
+                }
             }
             else if (!inImage)
             {
-                image1Inter.SetActive(false);
+                if (imgLastClick == "Image0BIG")
+                {
+                    imageInter[0].SetActive(false);
+                }
+                if (imgLastClick == "Image1BIG")
+                {
+                    imageInter[1].SetActive(false);
+                }
             }
         }
         else if (!inGallery)
         {
+            if (imgLastClick == "Image0BIG")
+            {
+                imageInter[0].SetActive(false);
+            }
+            if (imgLastClick == "Image1BIG")
+            {
+                imageInter[1].SetActive(false);
+            }
             gameInter.SetActive(true);
             galleryInter.SetActive(false);
         }
@@ -136,9 +159,10 @@ public class PhoneManager : MonoBehaviour
         inGallery = !inGallery;
     }
 
-    public void Image1()
+    public void Image(Button button)
     {
         inImage = !inImage;
+        imgLastClick = button.name;
     }
 
     public void RadarButton()
