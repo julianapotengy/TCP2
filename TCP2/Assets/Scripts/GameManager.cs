@@ -7,13 +7,18 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private Light globalLight;
     float gLightInt, lastInt;
+    Color blueColor, redColor;
     
     [SerializeField] private PhoneManager phoneMgn;
     public float insanity;
+    [HideInInspector] public bool firstBox;
 
     private void Start()
     {
         lastInt = 1;
+        blueColor = new Color(0.012f, 0.016f, 0.095f);
+        redColor = new Color(0.095f, 0.016f, 0.012f);
+        RenderSettings.ambientLight = blueColor;
     }
 
     private void Update()
@@ -24,6 +29,12 @@ public class GameManager : MonoBehaviour
         }
         
         PrivateLightController();
+
+        if(firstBox)
+        {
+            RenderSettings.ambientLight = redColor;
+        }
+        else RenderSettings.ambientLight = blueColor;
 
         // - comeco - apresentaçao
         if (Input.GetKeyDown(KeyCode.Alpha1))

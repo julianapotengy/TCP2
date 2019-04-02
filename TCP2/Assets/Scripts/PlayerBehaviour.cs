@@ -7,22 +7,46 @@ public class PlayerBehaviour : MonoBehaviour
     private float speed = 6.0f;
     private float gravity = -9.8f;
     private CharacterController charCont;
+    private GameManager gameMng;
+    private GameObject gameMngObj;
     private Light fLight;
-    private bool isLighting;
+    private bool isLighting, canBip;
+    [SerializeField] AudioClip bipSound;
 
     public GameObject phone;
+
+    private int goInsane;
+    public float room1Time;
     
 	void Start ()
     {
         charCont = GetComponent<CharacterController>();
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
         fLight.enabled = false;
-	}
+        gameMng = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        gameMngObj = GameObject.FindGameObjectWithTag("GameController");
+        canBip = true;
+    }
 	
 	void Update ()
     {
         Movement();
         Flashlight();
+
+        if(goInsane == 1)
+        {
+            room1Time += Time.deltaTime;
+        }
+        if(room1Time >= 5 && canBip)
+        {
+            gameMngObj.GetComponent<AudioSource>().PlayOneShot(bipSound);
+            canBip = false;
+        }
+
+        if(goInsane >= 2)
+        {
+            gameMng.firstBox = true;
+        }
 	}
 
     void Movement()
@@ -50,6 +74,14 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 fLight.enabled = !fLight.enabled;
             }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag.Equals("Insane"))
+        {
+            goInsane += 1;
         }
     }
 }
