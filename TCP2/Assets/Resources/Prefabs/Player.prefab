@@ -961,7 +961,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameMngObj: {fileID: 0}
   pointer: {fileID: 1324677118742924}
-  bipSound: {fileID: 8300000, guid: 1b329106b1ee6b9499805303e38e6263, type: 3}
 --- !u!114 &114056127787806804
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1618,6 +1617,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150389b43766c4e4293c5e620134dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  bipSound: {fileID: 8300000, guid: 1b329106b1ee6b9499805303e38e6263, type: 3}
   phone: {fileID: 1957611845829212}
   room1Time: 0
 --- !u!114 &114687081125506850
@@ -1672,15 +1673,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.08964514, g: 0.08944463, b: 0.09433961, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: c158941f0abe7524bbc1418763230013, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
