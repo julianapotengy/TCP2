@@ -1129,9 +1129,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 148002954}
-  - {fileID: 294213709}
-  - {fileID: 1434957100}
   - {fileID: 1747238134}
+  - {fileID: 1434957100}
+  - {fileID: 294213709}
   m_Father: {fileID: 155066557}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4264,11 +4264,6 @@ Prefab:
       propertyPath: gameMngObj
       value: 
       objectReference: {fileID: 1307282123}
-    - target: {fileID: 114686983026153588, guid: 6bce922d5e424ac4abe09b11e34a5c51,
-        type: 2}
-      propertyPath: bipSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 1b329106b1ee6b9499805303e38e6263, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6bce922d5e424ac4abe09b11e34a5c51, type: 2}
   m_IsPrefabAsset: 0
