@@ -25,6 +25,7 @@ public class PhoneManager : MonoBehaviour
     private bool locked, inGallery, inImage, big, inRadar;
     [HideInInspector] public bool phoneMode, inMenu;
     string imgLastClick;
+    private float normalSpeed, lowerSpeed;
 
     private void Start()
     {
@@ -36,6 +37,8 @@ public class PhoneManager : MonoBehaviour
         inRadar = false;
         unlockedInter.SetActive(false);
         locked = true;
+        normalSpeed = 6;
+        lowerSpeed = normalSpeed / 3;
     }
 
     private void Update()
@@ -66,6 +69,7 @@ public class PhoneManager : MonoBehaviour
         {
             unlockedInter.SetActive(false);
             lockedInter.SetActive(true);
+            player.GetComponent<PlayerBehaviour>().speed = normalSpeed;
             phoneMode = false;
             inGallery = false;
             inImage = false;
@@ -75,6 +79,7 @@ public class PhoneManager : MonoBehaviour
         {
             unlockedInter.SetActive(true);
             lockedInter.SetActive(false);
+            player.GetComponent<PlayerBehaviour>().speed = lowerSpeed;
             phoneMode = true;
         }
 

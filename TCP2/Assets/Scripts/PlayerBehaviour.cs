@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    private float speed = 6.0f;
+    [HideInInspector] public float speed;
     private float gravity = -9.8f;
     private CharacterController charCont;
     private GameManager gameMng;
@@ -51,19 +51,16 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Movement()
     {
-        if(!phone.GetComponent<PhoneManager>().phoneMode)
-        {
-            float deltaX = Input.GetAxis("Horizontal") * speed;
-            float deltaY = Input.GetAxis("Vertical") * speed;
-            Vector3 movement = new Vector3(deltaX, 0, deltaY);
-            movement = Vector3.ClampMagnitude(movement, speed);
+        float deltaX = Input.GetAxis("Horizontal") * speed;
+        float deltaY = Input.GetAxis("Vertical") * speed;
+        Vector3 movement = new Vector3(deltaX, 0, deltaY);
+        movement = Vector3.ClampMagnitude(movement, speed);
 
-            movement.y = gravity;
+        movement.y = gravity;
 
-            movement *= Time.deltaTime;
-            movement = transform.TransformDirection(movement);
-            charCont.Move(movement);
-        }
+        movement *= Time.deltaTime;
+        movement = transform.TransformDirection(movement);
+        charCont.Move(movement);
     }
 
     void Flashlight()
