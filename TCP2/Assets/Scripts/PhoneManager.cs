@@ -37,7 +37,7 @@ public class PhoneManager : MonoBehaviour
         inRadar = false;
         unlockedInter.SetActive(false);
         locked = true;
-        normalSpeed = 6;
+        normalSpeed = 5;
         lowerSpeed = normalSpeed / 3;
     }
 

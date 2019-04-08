@@ -484,8 +484,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1024596990715056}
-  m_LocalRotation: {x: -0, y: 0.72142327, z: -0, w: 0.6924944}
-  m_LocalPosition: {x: -0.5, y: 0.38, z: -0.27}
+  m_LocalRotation: {x: 0, y: 0.7214219, z: 0, w: 0.6924959}
+  m_LocalPosition: {x: -0.50000983, y: 0.38000035, z: -0.2700002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4930476154347206}
@@ -498,7 +498,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1899925303358792}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 65.5451, y: 0.853, z: 28.54}
+  m_LocalPosition: {x: -4.1, y: 0.853, z: 27.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4496036357895982}
@@ -921,9 +921,9 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
-  m_Range: 78
-  m_SpotAngle: 77
+  m_Intensity: 2
+  m_Range: 15.2
+  m_SpotAngle: 82
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -1866,7 +1866,7 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 2
+  m_Height: 1.3
   m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3

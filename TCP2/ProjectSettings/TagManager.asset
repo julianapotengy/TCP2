@@ -15,11 +15,11 @@ TagManager:
   - 
   - 
   - PostProcessing
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Door
+  - Player
+  - Room
+  - Objects
+  - Scene
   - 
   - 
   - 
