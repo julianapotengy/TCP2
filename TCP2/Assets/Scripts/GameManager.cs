@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PhoneManager phoneMgn;
     public float insanity;
     [HideInInspector] public bool firstBox;
+    [SerializeField] private GameObject fogParticle;
 
     private void Start()
     {
@@ -19,6 +20,7 @@ public class GameManager : MonoBehaviour
         blueColor = new Color(0.012f, 0.016f, 0.095f);
         redColor = new Color(0.095f, 0.016f, 0.012f);
         RenderSettings.ambientLight = blueColor;
+        fogParticle.SetActive(false);
     }
 
     private void Update()
@@ -47,6 +49,11 @@ public class GameManager : MonoBehaviour
             insanity = 75;
         else if (Input.GetKeyDown(KeyCode.Alpha5))
             insanity = 100;
+
+        if(Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            fogParticle.SetActive(true);
+        }
     }
     
     private void PrivateLightController()
@@ -55,7 +62,7 @@ public class GameManager : MonoBehaviour
 
         if (phoneMgn.inMenu || phoneMgn.phoneMode)
         {
-            gLightInt = 0;
+            gLightInt = 0.5f;
         }
         else
         {

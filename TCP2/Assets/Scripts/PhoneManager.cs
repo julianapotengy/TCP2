@@ -21,6 +21,7 @@ public class PhoneManager : MonoBehaviour
     public GameObject[] imageInter;
     [Header("Objeto da interface do radar")]
     public GameObject radarInter;
+    public GameObject arm;
 
     private bool locked, inGallery, inImage, big, inRadar;
     [HideInInspector] public bool phoneMode, inMenu;
@@ -80,7 +81,6 @@ public class PhoneManager : MonoBehaviour
             unlockedInter.SetActive(true);
             lockedInter.SetActive(false);
             player.GetComponent<PlayerBehaviour>().speed = lowerSpeed;
-            phoneMode = true;
         }
 
         if (inGallery)
@@ -146,16 +146,29 @@ public class PhoneManager : MonoBehaviour
             Time.timeScale = 1;
             menuInter.SetActive(false);
         }
-
+        
         if(big)
         {
-            this.gameObject.transform.localPosition = new Vector3(-1.1f, 0.52f, 2f);
-            this.gameObject.transform.localScale = new Vector3(0.14f * 2, 2.2f * 2, 1.15f * 2);
+            if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                this.gameObject.transform.localPosition = new Vector3(-1.89f, 0.52f, 1.59f);
+                this.gameObject.transform.localScale = new Vector3(0.04858f * 1.5f, 2.2f * 1.5f, 1.15f * 1.5f);
+                arm.transform.localPosition = new Vector3(0.5f, -0.5f, 0.35f);
+                phoneMode = false;
+            }
+            else if(Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
+            {
+                this.gameObject.transform.localPosition = new Vector3(-1.89f, 0.52f, 1.59f);
+                this.gameObject.transform.localScale = new Vector3(0.04858f * 2, 2.2f * 2, 1.15f * 2);
+                arm.transform.localPosition = new Vector3(0.626f, -0.3f, 0.35f);
+                phoneMode = true;
+            }
         }
         else if(!big)
         {
             this.gameObject.transform.localPosition = new Vector3(-0.95f, 0.52f, 0f);
-            this.gameObject.transform.localScale = new Vector3(0.14f, 2.2f, 1.15f);
+            this.gameObject.transform.localScale = new Vector3(0.04858f, 2.2f, 1.15f);
+            arm.transform.localPosition = new Vector3(0.4f, -0.17f, 0.35f);
         }
     }
 
