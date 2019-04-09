@@ -23,7 +23,7 @@ public class PhoneManager : MonoBehaviour
     public GameObject radarInter;
     public GameObject arm;
 
-    private bool locked, inGallery, inImage, big, inRadar;
+    private bool locked, inGallery, inImage, big, inRadar, canClick;
     [HideInInspector] public bool phoneMode, inMenu;
     string imgLastClick;
     private float normalSpeed, lowerSpeed;
@@ -40,6 +40,7 @@ public class PhoneManager : MonoBehaviour
         locked = true;
         normalSpeed = 5;
         lowerSpeed = normalSpeed / 3;
+        canClick = false;
     }
 
     private void Update()
@@ -155,6 +156,8 @@ public class PhoneManager : MonoBehaviour
                 this.gameObject.transform.localScale = new Vector3(0.04858f * 1.5f, 2.2f * 1.5f, 1.15f * 1.5f);
                 arm.transform.localPosition = new Vector3(0.5f, -0.5f, 0.35f);
                 phoneMode = false;
+                Cursor.visible = false;
+                canClick = false;
             }
             else if(Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
             {
@@ -162,6 +165,8 @@ public class PhoneManager : MonoBehaviour
                 this.gameObject.transform.localScale = new Vector3(0.04858f * 2, 2.2f * 2, 1.15f * 2);
                 arm.transform.localPosition = new Vector3(0.626f, -0.3f, 0.35f);
                 phoneMode = true;
+                Cursor.visible = true;
+                canClick = true;
             }
         }
         else if(!big)
@@ -169,22 +174,29 @@ public class PhoneManager : MonoBehaviour
             this.gameObject.transform.localPosition = new Vector3(-0.95f, 0.52f, 0f);
             this.gameObject.transform.localScale = new Vector3(0.04858f, 2.2f, 1.15f);
             arm.transform.localPosition = new Vector3(0.4f, -0.17f, 0.35f);
+            Cursor.visible = false;
+            canClick = false;
         }
     }
 
     public void GalleryButton()
     {
-        inGallery = !inGallery;
+        if(canClick)
+            inGallery = !inGallery;
     }
 
     public void Image(Button button)
     {
-        inImage = !inImage;
-        imgLastClick = button.name;
+        if(canClick)
+        {
+            inImage = !inImage;
+            imgLastClick = button.name;
+        }
     }
 
     public void RadarButton()
     {
-        inRadar = !inRadar;
+        if(canClick)
+            inRadar = !inRadar;
     }
 }
