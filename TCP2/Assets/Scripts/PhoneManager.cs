@@ -22,11 +22,11 @@ public class PhoneManager : MonoBehaviour
     [Header("Objeto da interface do radar")]
     public GameObject radarInter;
     public GameObject arm;
+    public GameDesigner gameDesigner;
 
-    private bool locked, inGallery, inImage, big, inRadar, canClick;
-    [HideInInspector] public bool phoneMode, inMenu;
+    private bool inGallery, inImage, big, inRadar, canClick;
+    [HideInInspector] public bool phoneMode, inMenu, locked;
     string imgLastClick;
-    private float normalSpeed, lowerSpeed;
 
     private void Start()
     {
@@ -38,8 +38,6 @@ public class PhoneManager : MonoBehaviour
         inRadar = false;
         unlockedInter.SetActive(false);
         locked = true;
-        normalSpeed = 5;
-        lowerSpeed = normalSpeed / 3;
         canClick = false;
     }
 
@@ -71,7 +69,6 @@ public class PhoneManager : MonoBehaviour
         {
             unlockedInter.SetActive(false);
             lockedInter.SetActive(true);
-            player.GetComponent<PlayerBehaviour>().speed = normalSpeed;
             phoneMode = false;
             inGallery = false;
             inImage = false;
@@ -81,7 +78,7 @@ public class PhoneManager : MonoBehaviour
         {
             unlockedInter.SetActive(true);
             lockedInter.SetActive(false);
-            player.GetComponent<PlayerBehaviour>().speed = lowerSpeed;
+            phoneMode = true;
         }
 
         if (inGallery)

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    [HideInInspector] public float speed;
     private float gravity = -9.8f;
     private CharacterController charCont;
     private GameManager gameMng;
@@ -14,6 +13,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] AudioClip bipSound;
 
     public GameObject phone;
+    public GameDesigner gameDesigner;
 
     private int goInsane;
     public float room1Time;
@@ -30,10 +30,26 @@ public class PlayerBehaviour : MonoBehaviour
 	
 	void Update ()
     {
-        Movement();
         Flashlight();
 
-        if(goInsane == 1)
+        if(phone.GetComponent<PhoneManager>().locked)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Movement(gameDesigner.speed * gameDesigner.runSpeed);
+            }
+            else Movement(gameDesigner.speed);
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
+            }
+            else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
+        }
+
+        if (goInsane == 1)
         {
             room1Time += Time.deltaTime;
         }
@@ -49,12 +65,12 @@ public class PlayerBehaviour : MonoBehaviour
         }
 	}
 
-    void Movement()
+    void Movement(float speedAtual)
     {
-        float deltaX = Input.GetAxis("Horizontal") * speed;
-        float deltaY = Input.GetAxis("Vertical") * speed;
+        float deltaX = Input.GetAxis("Horizontal") * speedAtual;
+        float deltaY = Input.GetAxis("Vertical") * speedAtual;
         Vector3 movement = new Vector3(deltaX, 0, deltaY);
-        movement = Vector3.ClampMagnitude(movement, speed);
+        movement = Vector3.ClampMagnitude(movement, speedAtual);
 
         movement.y = gravity;
 

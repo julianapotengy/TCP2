@@ -46,7 +46,7 @@ public class PointerController : MonoBehaviour
             }
         }
         
-        if(player.room1Time >= 5 && !Input.GetKey(KeyCode.LeftShift))
+        if(player.room1Time >= 5 && !Input.GetKey(KeyCode.A))
         {
             pointer.GetComponent<AudioSource>().enabled = true;
             if (pointer.GetComponent<Transform>().localRotation.z <= 0.45)

@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha5))
             insanity = 100;
 
-        if(Input.GetKeyDown(KeyCode.LeftShift))
+        if(Input.GetKeyDown(KeyCode.A))
         {
             fogParticle.SetActive(true);
         }

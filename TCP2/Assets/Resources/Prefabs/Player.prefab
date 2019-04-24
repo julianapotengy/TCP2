@@ -527,7 +527,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1723381014983262}
   m_LocalRotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: 0.3968757, y: -0.17458743, z: 0.3496332}
+  m_LocalPosition: {x: 0.4, y: -0.17, z: 0.35}
   m_LocalScale: {x: 0.16, y: 0.65, z: 0.17}
   m_Children:
   - {fileID: 4930476154347206}
@@ -567,8 +567,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1957611845829212}
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.95, y: 1.395, z: 0}
-  m_LocalScale: {x: 0.14, y: 2.2, z: 1.15}
+  m_LocalPosition: {x: -0.95, y: 1.3493, z: 0}
+  m_LocalScale: {x: 0.048580002, y: 2.2, z: 1.15}
   m_Children:
   - {fileID: 4226278866966196}
   - {fileID: 224521798368898774}
@@ -1617,9 +1617,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 150389b43766c4e4293c5e620134dd3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
   bipSound: {fileID: 8300000, guid: 1b329106b1ee6b9499805303e38e6263, type: 3}
   phone: {fileID: 1957611845829212}
+  gameDesigner: {fileID: 0}
   room1Time: 0
 --- !u!114 &114687081125506850
 MonoBehaviour:
@@ -1827,8 +1827,11 @@ MonoBehaviour:
   - {fileID: 1522483081827248}
   - {fileID: 1184128377730854}
   radarInter: {fileID: 1903129327082262}
+  arm: {fileID: 1723381014983262}
+  gameDesigner: {fileID: 0}
   phoneMode: 0
   inMenu: 0
+  locked: 0
 --- !u!114 &114992526792624884
 MonoBehaviour:
   m_ObjectHideFlags: 1
