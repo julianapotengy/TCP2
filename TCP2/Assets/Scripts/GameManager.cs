@@ -10,13 +10,28 @@ public class GameManager : MonoBehaviour
     Color blueColor, redColor;
     
     [SerializeField] private PhoneManager phoneMgn;
+    [SerializeField] private PlayerBehaviour player;
     public float insanity;
     [HideInInspector] public bool firstBox;
     [SerializeField] private GameObject fogParticle;
 
+    [HideInInspector] public float insanityTimer, insanityLostInLoght, insanityLostNoLight, changeInputTimer, changeInputSoma;
+    private string horizontal, vertical, horizontalInsane, verticalInsane;
+    bool changeInput;
+
+    void Awake()
+    {
+        horizontal = "Horizontal";
+        vertical = "Vertical";
+        horizontalInsane = "HorizontalInsane";
+        verticalInsane = "VerticalInsane";
+    }
+
     private void Start()
     {
         lastInt = 1;
+        insanity = 0;
+        insanityTimer = 0;
         blueColor = new Color(0.012f, 0.016f, 0.095f);
         redColor = new Color(0.095f, 0.016f, 0.012f);
         RenderSettings.ambientLight = blueColor;
@@ -50,9 +65,44 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha5))
             insanity = 100;
 
-        if(Input.GetKeyDown(KeyCode.A))
+        if(Input.GetKeyDown(KeyCode.Z))
         {
             fogParticle.SetActive(true);
+        }
+        
+        if(insanity < 75)
+        {
+            changeInput = false;
+        }
+        else if(insanity >= 75)
+        {
+            changeInputSoma += Time.deltaTime;
+            if(changeInputSoma >= changeInputTimer)
+            {
+                changeInput = !changeInput;
+                changeInputSoma = 0;
+            }
+        }
+
+        if(changeInput)
+        {
+            player.horizontal = horizontalInsane;
+            player.vertical = verticalInsane;
+        }
+        else
+        {
+            player.horizontal = horizontal;
+            player.vertical = vertical;
+        }
+
+        insanityTimer += Time.deltaTime;
+        if(player.inLight && insanityTimer >= insanityLostInLoght)
+        {
+            DecreaseInsanity();
+        }
+        else if(!player.inLight && insanityTimer >= insanityLostNoLight)
+        {
+            DecreaseInsanity();
         }
     }
     
@@ -72,5 +122,12 @@ public class GameManager : MonoBehaviour
             gLightInt = Mathf.Clamp(gLightInt, 0, 3);
             lastInt = gLightInt;
         }
+    }
+
+    private void DecreaseInsanity()
+    {
+        insanity += 1;
+        Debug.Log("Sanidade: " + insanity);
+        insanityTimer = 0;
     }
 }

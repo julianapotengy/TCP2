@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - Insane
+  - Flashlight
+  - Light in scene
   layers:
   - Default
   - TransparentFX

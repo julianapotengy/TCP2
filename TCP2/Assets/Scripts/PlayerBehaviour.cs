@@ -15,10 +15,12 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject phone;
     public GameDesigner gameDesigner;
 
-    private int goInsane;
+    private float goInsane;
     public float room1Time;
-    
-	void Start ()
+    [HideInInspector] public bool inLight;
+    [HideInInspector] public string horizontal, vertical;
+
+    void Start ()
     {
         charCont = GetComponent<CharacterController>();
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
@@ -67,8 +69,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Movement(float speedAtual)
     {
-        float deltaX = Input.GetAxis("Horizontal") * speedAtual;
-        float deltaY = Input.GetAxis("Vertical") * speedAtual;
+        float deltaX = Input.GetAxis(horizontal) * speedAtual;
+        float deltaY = Input.GetAxis(vertical) * speedAtual;
         Vector3 movement = new Vector3(deltaX, 0, deltaY);
         movement = Vector3.ClampMagnitude(movement, speedAtual);
 

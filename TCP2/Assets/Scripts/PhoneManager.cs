@@ -21,8 +21,12 @@ public class PhoneManager : MonoBehaviour
     public GameObject[] imageInter;
     [Header("Objeto da interface do radar")]
     public GameObject radarInter;
+    [Header("Objeto do braço")]
     public GameObject arm;
+    [Header("Game designer obj")]
     public GameDesigner gameDesigner;
+    [Header("Imagem borrada")]
+    public GameObject blurImage;
 
     private bool inGallery, inImage, big, inRadar, canClick;
     [HideInInspector] public bool phoneMode, inMenu, locked;
@@ -147,10 +151,12 @@ public class PhoneManager : MonoBehaviour
         
         if(big)
         {
-            if(Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            blurImage.SetActive(true);
+
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
             {
-                this.gameObject.transform.localPosition = new Vector3(-1.89f, 0.52f, 1.59f);
-                this.gameObject.transform.localScale = new Vector3(0.04858f * 1.5f, 2.2f * 1.5f, 1.15f * 1.5f);
+                this.gameObject.transform.localPosition = new Vector3(-2f, 0.52f, 1.39f);
+                this.gameObject.transform.localScale = new Vector3(5.88f * 1.25f, 1.54f * 1.25f, 6.25f * 1.25f);
                 arm.transform.localPosition = new Vector3(0.5f, -0.5f, 0.35f);
                 phoneMode = false;
                 Cursor.visible = false;
@@ -158,8 +164,8 @@ public class PhoneManager : MonoBehaviour
             }
             else if(Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
             {
-                this.gameObject.transform.localPosition = new Vector3(-1.89f, 0.52f, 1.59f);
-                this.gameObject.transform.localScale = new Vector3(0.04858f * 2, 2.2f * 2, 1.15f * 2);
+                this.gameObject.transform.localPosition = new Vector3(-1.88f, 0.52f, 1.39f);
+                this.gameObject.transform.localScale = new Vector3(5.88f * 1.7f, 1.54f * 1.7f, 6.25f * 1.7f);
                 arm.transform.localPosition = new Vector3(0.626f, -0.3f, 0.35f);
                 phoneMode = true;
                 Cursor.visible = true;
@@ -168,8 +174,9 @@ public class PhoneManager : MonoBehaviour
         }
         else if(!big)
         {
-            this.gameObject.transform.localPosition = new Vector3(-0.95f, 0.52f, 0f);
-            this.gameObject.transform.localScale = new Vector3(0.04858f, 2.2f, 1.15f);
+            blurImage.SetActive(false);
+            this.gameObject.transform.localPosition = new Vector3(-0.98f, 0.534f, 0.33f);
+            this.gameObject.transform.localScale = new Vector3(5.88f, 1.54f, 6.25f);
             arm.transform.localPosition = new Vector3(0.4f, -0.17f, 0.35f);
             Cursor.visible = false;
             canClick = false;
