@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UI;
 
 public class GameDesigner : MonoBehaviour
 {
@@ -24,6 +25,9 @@ public class GameDesigner : MonoBehaviour
     [Header("Tempo de mudança de botões")]
     public float changeInputTimer;
 
+    [Header("Texto de quando colide na porta")]
+    public string doorColliderTxt;
+
     private Light flashlight;
     private GameManager gameMng;
 
@@ -35,7 +39,7 @@ public class GameDesigner : MonoBehaviour
 
     void Start ()
     {
-		
+        gameMng.doorColliderTxt = this.doorColliderTxt;
 	}
 	
 	void Update ()

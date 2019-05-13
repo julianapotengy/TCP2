@@ -7,6 +7,7 @@ TagManager:
   - Insane
   - Flashlight
   - Light in scene
+  - Door
   layers:
   - Default
   - TransparentFX

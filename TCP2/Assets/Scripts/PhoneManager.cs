@@ -185,8 +185,10 @@ public class PhoneManager : MonoBehaviour
 
     public void GalleryButton()
     {
-        if(canClick)
+        if (canClick)
+        {
             inGallery = !inGallery;
+        }
     }
 
     public void Image(Button button)

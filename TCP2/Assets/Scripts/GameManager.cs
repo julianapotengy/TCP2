@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,12 +20,18 @@ public class GameManager : MonoBehaviour
     private string horizontal, vertical, horizontalInsane, verticalInsane;
     bool changeInput;
 
+    [SerializeField] private Text subtitleText;
+    [HideInInspector] public string doorColliderTxt;
+
+    float doorCounter;
+
     void Awake()
     {
         horizontal = "Horizontal";
         vertical = "Vertical";
         horizontalInsane = "HorizontalInsane";
         verticalInsane = "VerticalInsane";
+        subtitleText.text = "";
     }
 
     private void Start()
@@ -36,6 +43,7 @@ public class GameManager : MonoBehaviour
         redColor = new Color(0.095f, 0.016f, 0.012f);
         RenderSettings.ambientLight = blueColor;
         fogParticle.SetActive(false);
+        doorCounter = 0;
     }
 
     private void Update()
@@ -84,7 +92,25 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if(changeInput)
+        ChangeInput();
+
+        if(player.doorCollide)
+        {
+            doorCounter += Time.deltaTime;
+            subtitleText.text = doorColliderTxt;
+
+            if(doorCounter >= 3f)
+            {
+                subtitleText.text = "";
+                player.doorCollide = false;
+                doorCounter = 0;
+            }
+        }
+    }
+
+    private void ChangeInput()
+    {
+        if (changeInput)
         {
             player.horizontal = horizontalInsane;
             player.vertical = verticalInsane;
@@ -96,11 +122,11 @@ public class GameManager : MonoBehaviour
         }
 
         insanityTimer += Time.deltaTime;
-        if(player.inLight && insanityTimer >= insanityLostInLoght)
+        if (player.inLight && insanityTimer >= insanityLostInLoght)
         {
             DecreaseInsanity();
         }
-        else if(!player.inLight && insanityTimer >= insanityLostNoLight)
+        else if (!player.inLight && insanityTimer >= insanityLostNoLight)
         {
             DecreaseInsanity();
         }
