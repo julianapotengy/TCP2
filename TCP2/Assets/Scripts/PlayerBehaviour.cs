@@ -19,6 +19,9 @@ public class PlayerBehaviour : MonoBehaviour
     public float room1Time;
     [HideInInspector] public bool inLight, doorCollide;
     [HideInInspector] public string horizontal, vertical;
+    Rigidbody body;
+    Vector3 inputs = Vector3.zero;
+
 
     void Start ()
     {
@@ -29,6 +32,7 @@ public class PlayerBehaviour : MonoBehaviour
         gameMngObj = GameObject.FindGameObjectWithTag("GameController");
         canBip = true;
         doorCollide = false;
+        body = GetComponent<Rigidbody>();
     }
 	
 	void Update ()
@@ -93,29 +97,19 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag.Equals("Door"))
+        {
+            doorCollide = true;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag.Equals("Insane"))
         {
             goInsane += 1;
-        }
-    }
-
-    void OnCollisionEnter(Collision col)
-    {
-        if(col.gameObject.tag.Equals("Door"))
-        {
-            doorCollide = true;
-            Debug.Log("a");
-        }
-    }
-
-    void OnCollisionStay(Collision col)
-    {
-        if (col.gameObject.tag.Equals("Door"))
-        {
-            doorCollide = true;
-            Debug.Log("a");
         }
     }
 }
