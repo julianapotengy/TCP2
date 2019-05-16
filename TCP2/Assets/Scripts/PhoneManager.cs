@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PhoneManager : MonoBehaviour
 {
@@ -52,16 +53,10 @@ public class PhoneManager : MonoBehaviour
             locked = !locked;
             big = !big;
         }
-        
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            inMenu = !inMenu;
-            if (!big)
-                big = true;
-            else if (big && locked)
-                big = false;
-            else if (big && !locked)
-                big = true;
+            PauseGame();
         }
 
         Conditions();
@@ -204,5 +199,21 @@ public class PhoneManager : MonoBehaviour
     {
         if(canClick)
             inRadar = !inRadar;
+    }
+
+    public void PauseGame()
+    {
+        inMenu = !inMenu;
+        if (!big)
+            big = true;
+        else if (big && locked)
+            big = false;
+        else if (big && !locked)
+            big = true;
+    }
+
+    public void ToMenu(string name)
+    {
+        SceneManager.LoadScene(name);
     }
 }

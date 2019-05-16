@@ -6,10 +6,14 @@ public class EventsBehaviour : MonoBehaviour
 {
     GameObject frameObj;
     GameObject book;
-    bool leftRoom;
+    public bool rightRoom, leftFirstEvent;
     float quadroPosition, bookRotation, bookPosition;
     float randTime, randEvent, randBookRot;
     float leftCounter;
+    public int leftRoom;
+
+    public GameObject passosLeftRoom;
+    public GameObject shadowLeftRoom;
 
     void Awake()
     {
@@ -20,17 +24,20 @@ public class EventsBehaviour : MonoBehaviour
         randTime = Random.Range(3, 11);
         randEvent = Random.Range(0, 2);
         randBookRot = Random.Range(45, 136);
+
+        passosLeftRoom.SetActive(false);
+        leftFirstEvent = true;
+        leftRoom = 0;
     }
 
 	void Start ()
     {
-        leftRoom = true;
         Debug.Log(randTime + " evento: " + randEvent + " rotation " + randBookRot);
 	}
 
     void FixedUpdate()
     {
-        if (leftRoom)
+        if (leftRoom > 0)
         {
             LeftRoomEvent();
         }
@@ -46,6 +53,15 @@ public class EventsBehaviour : MonoBehaviour
             else if(randEvent == 1)
             {
                 BookFalling();
+            }
+        }
+
+        if(leftCounter >= 5)
+        {
+            if(leftFirstEvent)
+            {
+                passosLeftRoom.SetActive(true);
+                leftFirstEvent = false;
             }
         }
     }

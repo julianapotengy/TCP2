@@ -14,6 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public GameObject phone;
     public GameDesigner gameDesigner;
+    public EventsBehaviour eventsBehaviour;
 
     private float goInsane;
     public float room1Time;
@@ -22,14 +23,14 @@ public class PlayerBehaviour : MonoBehaviour
     Rigidbody body;
     Vector3 inputs = Vector3.zero;
 
-
     void Start ()
     {
         charCont = GetComponent<CharacterController>();
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
         fLight.enabled = false;
-        gameMng = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         gameMngObj = GameObject.FindGameObjectWithTag("GameController");
+        gameMng = gameMngObj.GetComponent<GameManager>();
+        eventsBehaviour = gameMngObj.GetComponent<EventsBehaviour>();
         canBip = true;
         doorCollide = false;
         body = GetComponent<Rigidbody>();
@@ -110,6 +111,18 @@ public class PlayerBehaviour : MonoBehaviour
         if(other.gameObject.tag.Equals("Insane"))
         {
             goInsane += 1;
+        }
+        if (other.gameObject.name.Equals("Sala1Esquerda"))
+        {
+            eventsBehaviour.leftRoom += 1;
+            if(eventsBehaviour.leftRoom == 3)
+            {
+                eventsBehaviour.passosLeftRoom.SetActive(false);
+            }
+        }
+        if(other.gameObject == eventsBehaviour.passosLeftRoom)
+        {
+            eventsBehaviour.passosLeftRoom.SetActive(false);
         }
     }
 }
