@@ -5,19 +5,20 @@ using UnityEngine;
 public class Teste : MonoBehaviour
 {
     float maxDistance = 10;
+    EventsBehaviour eventsBehaviour;
 
     void Start ()
     {
-		
+        eventsBehaviour = GameObject.FindGameObjectWithTag("GameController").GetComponent<EventsBehaviour>();
 	}
 	
 	void FixedUpdate ()
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance) && hit.collider.gameObject.name.Equals("Busto"))
+        if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance) && hit.collider.gameObject.name.Equals("ShadowLeftRoom") && eventsBehaviour.shadowLeftRoom.GetComponent<ShadowBehaviour>().canFollow)
         {
-            //this.enabled = false;
+            eventsBehaviour.passosLeftRoom.SetActive(false);
             Debug.Log("olhando");
         }
     }

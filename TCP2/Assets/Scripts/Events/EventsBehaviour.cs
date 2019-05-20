@@ -15,6 +15,8 @@ public class EventsBehaviour : MonoBehaviour
     public GameObject passosLeftRoom;
     public GameObject shadowLeftRoom;
 
+    [HideInInspector] public bool tutorial;
+
     void Awake()
     {
         frameObj = GameObject.Find("Frame");
@@ -79,5 +81,10 @@ public class EventsBehaviour : MonoBehaviour
     {
         book.GetComponent<Rigidbody>().AddForce(-Vector3.forward * 100, ForceMode.Acceleration);
             //book.GetComponent<Rigidbody>().AddTorque(transform.right * 45);
+    }
+
+    public void ShadowGone()
+    {
+        passosLeftRoom.SetActive(false);
     }
 }

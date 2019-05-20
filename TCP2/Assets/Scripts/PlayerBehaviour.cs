@@ -117,12 +117,16 @@ public class PlayerBehaviour : MonoBehaviour
             eventsBehaviour.leftRoom += 1;
             if(eventsBehaviour.leftRoom == 3)
             {
-                eventsBehaviour.passosLeftRoom.SetActive(false);
+                eventsBehaviour.ShadowGone();
             }
         }
         if(other.gameObject == eventsBehaviour.passosLeftRoom)
         {
-            eventsBehaviour.passosLeftRoom.SetActive(false);
+            eventsBehaviour.ShadowGone();
+        }
+        if(other.gameObject.name.Equals("RightCollider_LeftEvent"))
+        {
+            eventsBehaviour.shadowLeftRoom.GetComponent<ShadowBehaviour>().canFollow = true;
         }
     }
 }
