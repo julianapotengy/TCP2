@@ -29,6 +29,9 @@ public class PhoneManager : MonoBehaviour
     [Header("Imagem borrada")]
     public GameObject blurImage;
 
+    Tutorial tutorial;
+    Light fLight;
+
     private bool inGallery, inImage, big, inRadar, canClick;
     [HideInInspector] public bool phoneMode, inMenu, locked;
     string imgLastClick;
@@ -44,14 +47,21 @@ public class PhoneManager : MonoBehaviour
         unlockedInter.SetActive(false);
         locked = true;
         canClick = false;
+
+        tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
+        fLight = GameObject.Find("Flashlight").GetComponent<Light>();
+        fLight.enabled = false;
     }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E) && !inMenu)
+        if(!tutorial.tutorial)
         {
-            locked = !locked;
-            big = !big;
+            if (Input.GetKeyDown(KeyCode.E) && !inMenu)
+            {
+                locked = !locked;
+                big = !big;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -60,6 +70,12 @@ public class PhoneManager : MonoBehaviour
         }
 
         Conditions();
+
+        if(tutorial.phoneMode)
+        {
+            locked = false;
+            big = true;
+        }
     }
 
     public void Conditions()
@@ -176,6 +192,14 @@ public class PhoneManager : MonoBehaviour
             Cursor.visible = false;
             canClick = false;
         }
+
+        if (!phoneMode)
+        {
+            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
+            {
+                Flashlight();
+            }
+        }
     }
 
     public void GalleryButton()
@@ -215,5 +239,10 @@ public class PhoneManager : MonoBehaviour
     public void ToMenu(string name)
     {
         SceneManager.LoadScene(name);
+    }
+
+    public void Flashlight()
+    {
+        fLight.enabled = !fLight.enabled;
     }
 }

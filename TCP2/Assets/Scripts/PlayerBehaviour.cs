@@ -8,13 +8,13 @@ public class PlayerBehaviour : MonoBehaviour
     private CharacterController charCont;
     private GameManager gameMng;
     private GameObject gameMngObj;
-    private Light fLight;
     private bool isLighting, canBip;
     [SerializeField] AudioClip bipSound;
 
     public GameObject phone;
     public GameDesigner gameDesigner;
-    public EventsBehaviour eventsBehaviour;
+    EventsBehaviour eventsBehaviour;
+    Tutorial tutorialObj;
 
     private float goInsane;
     public float room1Time;
@@ -26,11 +26,10 @@ public class PlayerBehaviour : MonoBehaviour
     void Start ()
     {
         charCont = GetComponent<CharacterController>();
-        fLight = GameObject.Find("Flashlight").GetComponent<Light>();
-        fLight.enabled = false;
         gameMngObj = GameObject.FindGameObjectWithTag("GameController");
         gameMng = gameMngObj.GetComponent<GameManager>();
         eventsBehaviour = gameMngObj.GetComponent<EventsBehaviour>();
+        tutorialObj = GameObject.Find("Tutorial").GetComponent<Tutorial>();
         canBip = true;
         doorCollide = false;
         body = GetComponent<Rigidbody>();
@@ -38,38 +37,41 @@ public class PlayerBehaviour : MonoBehaviour
 	
 	void Update ()
     {
-        Flashlight();
-
-        if(phone.GetComponent<PhoneManager>().locked)
+        if(tutorialObj.tutoWalk)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (phone.GetComponent<PhoneManager>().locked)
             {
-                Movement(gameDesigner.speed * gameDesigner.runSpeed);
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Movement(gameDesigner.speed * gameDesigner.runSpeed);
+                }
+                else Movement(gameDesigner.speed);
             }
-            else Movement(gameDesigner.speed);
-        }
-        else
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
+            else
             {
-                Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
+                }
+                else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
             }
-            else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
         }
+        if(!tutorialObj.tutorial)
+        {
+            if (goInsane == 1)
+            {
+                room1Time += Time.deltaTime;
+            }
+            if (room1Time >= 5 && canBip)
+            {
+                gameMngObj.GetComponent<AudioSource>().PlayOneShot(bipSound);
+                canBip = false;
+            }
 
-        if (goInsane == 1)
-        {
-            room1Time += Time.deltaTime;
-        }
-        if(room1Time >= 5 && canBip)
-        {
-            gameMngObj.GetComponent<AudioSource>().PlayOneShot(bipSound);
-            canBip = false;
-        }
-
-        if(goInsane >= 2)
-        {
-            gameMng.firstBox = true;
+            if (goInsane >= 2)
+            {
+                gameMng.firstBox = true;
+            }
         }
 	}
 
@@ -85,17 +87,6 @@ public class PlayerBehaviour : MonoBehaviour
         movement *= Time.deltaTime;
         movement = transform.TransformDirection(movement);
         charCont.Move(movement);
-    }
-
-    void Flashlight()
-    {
-        if(!phone.GetComponent<PhoneManager>().phoneMode)
-        {
-            if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.R))
-            {
-                fLight.enabled = !fLight.enabled;
-            }
-        }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)

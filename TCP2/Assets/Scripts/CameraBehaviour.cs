@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraBehaviour : MonoBehaviour
 {
     public GameObject phone;
+    public Tutorial tutorialObj;
 
     public enum RotationAxis
     {
@@ -22,19 +23,22 @@ public class CameraBehaviour : MonoBehaviour
 	
 	void Update ()
     {
-        if(!phone.GetComponent<PhoneManager>().phoneMode)
+        if(tutorialObj.tutoWalk)
         {
-            if (axes == RotationAxis.mouseX)
+            if (!phone.GetComponent<PhoneManager>().phoneMode)
             {
-                transform.Rotate(0, Input.GetAxis("Mouse X") * senseHorizontal, 0);
-            }
-            else if (axes == RotationAxis.mouseY)
-            {
-                rotationX -= Input.GetAxis("Mouse Y") * senseVertical;
-                rotationX = Mathf.Clamp(rotationX, minimumVert, maximumVert);
+                if (axes == RotationAxis.mouseX)
+                {
+                    transform.Rotate(0, Input.GetAxis("Mouse X") * senseHorizontal, 0);
+                }
+                else if (axes == RotationAxis.mouseY)
+                {
+                    rotationX -= Input.GetAxis("Mouse Y") * senseVertical;
+                    rotationX = Mathf.Clamp(rotationX, minimumVert, maximumVert);
 
-                float rotationY = transform.localEulerAngles.y;
-                transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
+                    float rotationY = transform.localEulerAngles.y;
+                    transform.localEulerAngles = new Vector3(rotationX, rotationY, 0);
+                }
             }
         }
 	}
