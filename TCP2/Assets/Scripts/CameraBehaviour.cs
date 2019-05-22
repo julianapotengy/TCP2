@@ -23,7 +23,7 @@ public class CameraBehaviour : MonoBehaviour
 	
 	void Update ()
     {
-        if(tutorialObj.tutoWalk)
+        if(!tutorialObj.tutorial)
         {
             if (!phone.GetComponent<PhoneManager>().phoneMode)
             {

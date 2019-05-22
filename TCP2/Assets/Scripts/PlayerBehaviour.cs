@@ -37,26 +37,24 @@ public class PlayerBehaviour : MonoBehaviour
 	
 	void Update ()
     {
-        if(tutorialObj.tutoWalk)
+        if (phone.GetComponent<PhoneManager>().locked)
         {
-            if (phone.GetComponent<PhoneManager>().locked)
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    Movement(gameDesigner.speed * gameDesigner.runSpeed);
-                }
-                else Movement(gameDesigner.speed);
+                Movement(gameDesigner.speed * gameDesigner.runSpeed);
             }
-            else
-            {
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
-                }
-                else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
-            }
+            else Movement(gameDesigner.speed);
         }
-        if(!tutorialObj.tutorial)
+        else
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
+            }
+            else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
+        }
+
+        if (!tutorialObj.tutorial)
         {
             if (goInsane == 1)
             {
@@ -77,16 +75,32 @@ public class PlayerBehaviour : MonoBehaviour
 
     void Movement(float speedAtual)
     {
-        float deltaX = Input.GetAxis(horizontal) * speedAtual;
-        float deltaY = Input.GetAxis(vertical) * speedAtual;
-        Vector3 movement = new Vector3(deltaX, 0, deltaY);
-        movement = Vector3.ClampMagnitude(movement, speedAtual);
+        if(tutorialObj.tutoWalk && tutorialObj.tutorial)
+        {
+            float deltaX = Input.GetAxis(horizontal) * speedAtual;
+            float deltaY = Input.GetAxis(vertical) * speedAtual;
+            Vector3 movement = new Vector3(0, 0, deltaY);
+            movement = Vector3.ClampMagnitude(movement, speedAtual);
 
-        movement.y = gravity;
+            movement.y = gravity;
 
-        movement *= Time.deltaTime;
-        movement = transform.TransformDirection(movement);
-        charCont.Move(movement);
+            movement *= Time.deltaTime;
+            movement = transform.TransformDirection(movement);
+            charCont.Move(movement);
+        }
+        else if(!tutorialObj.tutorial)
+        {
+            float deltaX = Input.GetAxis(horizontal) * speedAtual;
+            float deltaY = Input.GetAxis(vertical) * speedAtual;
+            Vector3 movement = new Vector3(deltaX, 0, deltaY);
+            movement = Vector3.ClampMagnitude(movement, speedAtual);
+
+            movement.y = gravity;
+
+            movement *= Time.deltaTime;
+            movement = transform.TransformDirection(movement);
+            charCont.Move(movement);
+        }
     }
 
     void OnControllerColliderHit(ControllerColliderHit hit)
@@ -119,5 +133,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             eventsBehaviour.shadowLeftRoom.GetComponent<ShadowBehaviour>().canFollow = true;
         }
+
+        /*if(tutorialObj.tutorial && other.gameObject.name.Equals("BustoTutorial"))
+        {
+            tutorialObj.bustoCollide = true;
+            tutorialObj.counter = 0;
+            tutorialObj.sadasOpen = false;
+        }*/
     }
 }

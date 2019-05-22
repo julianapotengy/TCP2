@@ -55,7 +55,7 @@ public class PhoneManager : MonoBehaviour
 
     private void Update()
     {
-        if(!tutorial.tutorial)
+        if(tutorial.sadasOpen || tutorial.bustoCollide)
         {
             if (Input.GetKeyDown(KeyCode.E) && !inMenu)
             {

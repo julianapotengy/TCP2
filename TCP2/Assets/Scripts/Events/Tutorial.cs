@@ -7,8 +7,8 @@ public class Tutorial : MonoBehaviour
 {
     Text subtitle;
     AudioSource audioSrc;
-    [HideInInspector] public bool tutorial, tutoWalk, phoneMode;
-    float counter;
+    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide;
+    [HideInInspector] public float counter;
 
     string what, whoIsLaxos1, whoIsLaxos2, yourName, yourAge, createPassword, letsStart1, letsStart2, letsStart3, goToApp1, goToApp2,
         sadas1, sadas2, goWalk, itWhistle1, itWhistle2, selfie, goodPic, postPic;
@@ -18,17 +18,26 @@ public class Tutorial : MonoBehaviour
 
     //[HideInInspector] string playerName, playerAge, playerPassword;
     GameObject phonePanel;
-    InputField playerName, playerAge, playerPassword;
+    public InputField playerName, playerAge, playerPassword;
+    public GameObject userName, userAge, userPassword, tutorialInterface;
+    string pName, pAge, pPassword;
 
     void Start ()
     {
         subtitle = GameObject.Find("Subtitle").GetComponent<Text>();
         audioSrc = GameObject.Find("Cellphone").GetComponent<AudioSource>();
         phonePanel = GameObject.Find("TutorialPanel");
+        tutorialInterface.SetActive(false);
+        userName.SetActive(false);
+        userAge.SetActive(false);
+        userPassword.SetActive(false);
         phonePanel.SetActive(false);
         tutorial = true;
         tutoWalk = false;
         phoneMode = false;
+        endPhoneTutorial = false;
+        sadasOpen = false;
+        bustoCollide = false;
         counter = 0;
 
         what = "Mas o quê...? Isso é sério? Logo agora?";
@@ -50,61 +59,216 @@ public class Tutorial : MonoBehaviour
         selfie = "Olha que interessante... que tal uma selfie? Será que a câmera já atualizou?";
         goodPic = "Vamos ver se ficou boa.";
         postPic = "Ótimo, só preciso postar.";
-
-        playerName = GameObject.Find("InputFieldName").GetComponent<InputField>();
-        playerName.characterLimit = 10;
-        playerAge = GameObject.Find("InputFieldAge").GetComponent<InputField>();
-        playerAge.characterLimit = 3;
     }
 	
 	void Update ()
     {
-        counter += Time.deltaTime;
-        Debug.Log("counter: " + counter);
+        if (!phoneMode)
+        {
+            counter += Time.deltaTime;
+            //Debug.Log("counter: " + counter);
 
-        if(counter >= 1 && counter <= 2)
-        {
-            subtitle.text = what;
-            //audioSrc.PlayOneShot(firstSound);
-        }
-        else if (counter >= 2 && counter <= 5)
-        {
-            subtitle.text = what;
-            //audioSrc.PlayOneShot(whatSound);
-        }
-        else if (counter >= 5)
-        {
-            //audioSrc.PlayOneShot(whoIsLaxosSound);
-            if (counter <= 8)
+            if (counter >= 1 && counter <= 2)
             {
-                subtitle.text = whoIsLaxos1;
+                subtitle.text = what;
+                //audioSrc.PlayOneShot(firstSound);
             }
-            else if(counter <= 12 && counter >= 8)
+            else if (counter >= 2 && counter <= 5)
             {
-                subtitle.text = whoIsLaxos2;
+                subtitle.text = what;
+                //audioSrc.PlayOneShot(whatSound);
+            }
+            else if (counter >= 5)
+            {
+                //audioSrc.PlayOneShot(whoIsLaxosSound);
+                if (counter <= 8)
+                {
+                    subtitle.text = whoIsLaxos1;
+                }
+                else if (counter <= 12 && counter >= 8)
+                {
+                    subtitle.text = whoIsLaxos2;
+                }
+            }
+            if (counter >= 12)
+            {
+                //audioSrc.PlayOneShot(yourNameSound);
+                subtitle.text = yourName;
+                phoneMode = true;
+                phonePanel.SetActive(true);
+                userName.SetActive(true);
+                counter = 0;
             }
         }
-        if(counter >= 12)
+        if (endPhoneTutorial && !sadasOpen)
         {
-            phoneMode = true;
-            subtitle.text = yourName;
-            phonePanel.SetActive(true);
+            counter += Time.deltaTime;
+
+            if (counter >= 0 && counter <= 13)
+            {
+                //audioSrc.PlayOneShot(letsStart);
+                if (counter <= 4)
+                {
+                    subtitle.text = letsStart1;
+                }
+                else if (counter >= 4 && counter <= 9)
+                {
+                    subtitle.text = letsStart2;
+                }
+                else if (counter >= 9 && counter <= 13)
+                {
+                    subtitle.text = letsStart3;
+                }
+            }
+            else if(counter >= 13 && counter <= 21)
+            {
+                //audioSrc.PlayOneShot(goToAppSound);
+                phonePanel.SetActive(false);
+                tutorialInterface.SetActive(true);
+                if (counter <= 17)
+                {
+                    subtitle.text = goToApp1;
+                }
+                else if (counter >= 17 && counter <= 21)
+                {
+                    subtitle.text = goToApp2;
+                }
+            }
+            else if (counter >= 21 && counter <= 31)
+            {
+                //audioSrc.PlayOneShot(sadasSound);
+                if (counter <= 25)
+                {
+                    subtitle.text = sadas1;
+                }
+                else if (counter >= 25 && counter <= 28)
+                {
+                    subtitle.text = sadas2;
+                }
+                else if (counter >= 28)
+                {
+                    subtitle.text = "";
+                }
+            }
+        }
+        if (sadasOpen)
+        {
+            counter += Time.deltaTime;
+
+            if(counter >= 1 && counter <= 5)
+            {
+                //audioSrc.PlayOneShot(goWalkSound);
+                subtitle.text = goWalk;
+                tutoWalk = true;
+            }
+            else if(counter >= 5)
+            {
+                subtitle.text = "";
+            }
+        }
+        if (sadasOpen)
+        {
+            counter += Time.deltaTime;
+
+            if (counter >= 1 && counter <= 5)
+            {
+                //audioSrc.PlayOneShot(goWalkSound);
+                subtitle.text = goWalk;
+                tutoWalk = true;
+            }
+            else if (counter >= 5)
+            {
+                subtitle.text = "";
+            }
+        }
+        if (bustoCollide)
+        {
+            counter += Time.deltaTime;
+            //tutoWalk = false;
+
+            if (counter >= 1 && counter <= 9)
+            {
+                //audioSrc.PlayOneShot(itWhistleSound);
+
+                if (counter >= 1 && counter <= 5)
+                {
+                    subtitle.text = itWhistle1;
+                }
+                else if (counter >= 5 && counter <= 9)
+                {
+                    subtitle.text = itWhistle2;
+                }
+            }
         }
     }
 
-    public void UpdateNameField()
+    public void UpdateNameField(string newText)
     {
-        string text = playerName.text;
+        string text = newText;
         text = text.Replace(" ", "");
         text = text.Replace("'", "");
         playerName.text = text;
     }
 
-    public void UpdateAgeField()
+    public void UpdateAgeField(string newAge)
     {
-        string text = playerAge.text;
-        text = text.Replace(" ", "");
-        text = text.Replace("-", "");
-        playerAge.text = text;
+        string age = newAge;
+        age = age.Replace("-", "");
+        age = age.Replace(".", "");
+        age = age.Replace(",", "");
+        playerAge.text = age;
+    }
+
+    public void UpdatePasswordField(string newPassword)
+    {
+        string password = newPassword;
+        password = password.Replace("-", "");
+        password = password.Replace(".", "");
+        password = password.Replace(",", "");
+        playerPassword.text = password;
+    }
+
+    public void SetName()
+    {
+        if(playerName.text != "")
+        {
+            subtitle.text = yourAge;
+            //audioSrc.PlayOneShot(yourAgeSound);
+            pName = playerName.text;
+            userName.SetActive(false);
+            userAge.SetActive(true);
+        }
+    }
+
+    public void SetAge()
+    {
+        if(playerAge.text != "")
+        {
+            subtitle.text = createPassword;
+            //audioSrc.PlayOneShot(createPasswordSound);
+            pAge = playerAge.text;
+            userAge.SetActive(false);
+            userPassword.SetActive(true);
+        }
+    }
+
+    public void SetPassword()
+    {
+        if(playerPassword.text != "" && playerPassword.text.Length == 4)
+        {
+            endPhoneTutorial = true;
+            pPassword = playerPassword.text;
+            userPassword.SetActive(false);
+        }
+    }
+
+    public void SadasOpen()
+    {
+        Debug.Log("aa");
+        sadasOpen = true;
+        if (!sadasOpen)
+        {
+            counter = 0;
+        }
     }
 }

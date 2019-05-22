@@ -62,6 +62,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1032497100572328
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4776933965470436}
+  - component: {fileID: 65588066824526262}
+  m_Layer: 0
+  m_Name: BustoTutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1032773424068566
 GameObject:
   m_ObjectHideFlags: 1
@@ -2328,6 +2344,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4236018322899064}
   - component: {fileID: 212901698036047542}
+  - component: {fileID: 65566368513603220}
+  - component: {fileID: 114176130199989804}
   m_Layer: 0
   m_Name: ShadowLeftRoom
   m_TagString: Untagged
@@ -6108,13 +6126,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1440179453071300}
-  m_LocalRotation: {x: -0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -2.9400005, y: -0.27999997, z: 2.210001}
   m_LocalScale: {x: 0.38560498, y: 0.38560498, z: 0.38560498}
   m_Children: []
   m_Father: {fileID: 4925881732780244}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90.00001, y: 0, z: 90}
+  m_LocalEulerAnglesHint: {x: -180, y: -90, z: 180}
 --- !u!4 &4237204095993756
 Transform:
   m_ObjectHideFlags: 1
@@ -6148,7 +6166,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1323975647210296}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.46468687, y: 0.071923405, z: 8.351775}
+  m_LocalPosition: {x: 0.3, y: 0.071923405, z: 8.351775}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4882778018387844}
@@ -7034,7 +7052,8 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -3.91, y: 0.74, z: 15.11}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4776933965470436}
   m_Father: {fileID: 4471135052512590}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8457,6 +8476,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4102431281930110}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4776933965470436
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032497100572328}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4417062118792380}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4779036582050300
 Transform:
@@ -20928,6 +20960,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.830965, y: 26.702246, z: 4.000002}
   m_Center: {x: -23.287426, y: 19.091654, z: 2.077332}
+--- !u!65 &65566368513603220
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1440179453071300}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.5263286, y: 3.8766582, z: 0.20000005}
+  m_Center: {x: -0.5229016, y: 1.7016709, z: 2.248189e-15}
 --- !u!65 &65569467769369052
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -21000,6 +21044,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &65588066824526262
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1032497100572328}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 3.782538}
+  m_Center: {x: 0, y: 0, z: 1.4}
 --- !u!65 &65590186631308152
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -22596,6 +22652,18 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114176130199989804
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1440179453071300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90c16b721e6ab1e4a8896347f50b0e49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canFollow: 0
 --- !u!114 &114301833069863124
 MonoBehaviour:
   m_ObjectHideFlags: 1
