@@ -134,11 +134,12 @@ public class PlayerBehaviour : MonoBehaviour
             eventsBehaviour.shadowLeftRoom.GetComponent<ShadowBehaviour>().canFollow = true;
         }
 
-        /*if(tutorialObj.tutorial && other.gameObject.name.Equals("BustoTutorial"))
+        if(tutorialObj.tutorial && other.gameObject.name.Equals("BustoTutorial"))
         {
             tutorialObj.bustoCollide = true;
             tutorialObj.counter = 0;
             tutorialObj.sadasOpen = false;
-        }*/
+            gameMngObj.GetComponent<AudioSource>().PlayOneShot(bipSound);
+        }
     }
 }

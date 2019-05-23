@@ -28,18 +28,22 @@ public class PhoneManager : MonoBehaviour
     public GameDesigner gameDesigner;
     [Header("Imagem borrada")]
     public GameObject blurImage;
+    [Header("Objeto da interface do tutorial")]
+    public GameObject tutorialInter;
+    [Header("Objeto da interface da camera")]
+    public GameObject cameraInter;
 
     Tutorial tutorial;
     Light fLight;
 
-    private bool inGallery, inImage, big, inRadar, canClick;
+    private bool inGallery, inImage, big, inRadar, canClick, openCam;
     [HideInInspector] public bool phoneMode, inMenu, locked;
     string imgLastClick;
 
     private void Start()
     {
         phoneMode = false;
-        inGallery = true;
+        inGallery = false;
         inMenu = false;
         inImage = true;
         big = false;
@@ -47,6 +51,7 @@ public class PhoneManager : MonoBehaviour
         unlockedInter.SetActive(false);
         locked = true;
         canClick = false;
+        openCam = false;
 
         tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
@@ -55,12 +60,20 @@ public class PhoneManager : MonoBehaviour
 
     private void Update()
     {
-        if(tutorial.sadasOpen || tutorial.bustoCollide)
+        if(tutorial.bustoCollide)
         {
             if (Input.GetKeyDown(KeyCode.E) && !inMenu)
             {
                 locked = !locked;
                 big = !big;
+            }
+        }
+        else
+        {
+            if (tutorial.phoneMode)
+            {
+                locked = false;
+                big = true;
             }
         }
 
@@ -70,12 +83,6 @@ public class PhoneManager : MonoBehaviour
         }
 
         Conditions();
-
-        if(tutorial.phoneMode)
-        {
-            locked = false;
-            big = true;
-        }
     }
 
     public void Conditions()
@@ -84,16 +91,23 @@ public class PhoneManager : MonoBehaviour
         {
             unlockedInter.SetActive(false);
             lockedInter.SetActive(true);
+            tutorialInter.SetActive(false);
+            cameraInter.SetActive(false);
             phoneMode = false;
             inGallery = false;
             inImage = false;
             inRadar = false;
+            openCam = false;
         }
         else if (!locked)
         {
             unlockedInter.SetActive(true);
             lockedInter.SetActive(false);
             phoneMode = true;
+            if(tutorial.tutorial)
+            {
+                tutorialInter.SetActive(true);
+            }
         }
 
         if (inGallery)
@@ -140,12 +154,18 @@ public class PhoneManager : MonoBehaviour
         if(inRadar)
         {
             gameInter.SetActive(false);
+            tutorialInter.SetActive(false);
             radarInter.SetActive(true);
+            cameraInter.SetActive(false);
         }
         else if(!inRadar)
         {
             gameInter.SetActive(true);
             radarInter.SetActive(false);
+            if(tutorial.tutorial && tutorial.phoneMode)
+            {
+                tutorialInter.SetActive(true);
+            }
         }
 
         if (inMenu)
@@ -200,6 +220,23 @@ public class PhoneManager : MonoBehaviour
                 Flashlight();
             }
         }
+
+        if (openCam)
+        {
+            gameInter.SetActive(false);
+            tutorialInter.SetActive(false);
+            cameraInter.SetActive(true);
+            radarInter.SetActive(false);
+        }
+        else if (!openCam)
+        {
+            if(tutorial.tutorial)
+            {
+                tutorialInter.SetActive(true);
+            }
+            cameraInter.SetActive(false);
+            gameInter.SetActive(true);
+        }
     }
 
     public void GalleryButton()
@@ -244,5 +281,10 @@ public class PhoneManager : MonoBehaviour
     public void Flashlight()
     {
         fLight.enabled = !fLight.enabled;
+    }
+
+    public void OpenCamera()
+    {
+        openCam = !openCam;
     }
 }

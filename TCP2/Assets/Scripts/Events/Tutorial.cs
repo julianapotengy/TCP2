@@ -7,19 +7,19 @@ public class Tutorial : MonoBehaviour
 {
     Text subtitle;
     AudioSource audioSrc;
-    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide;
+    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide, takePic, tookPic;
     [HideInInspector] public float counter;
 
     string what, whoIsLaxos1, whoIsLaxos2, yourName, yourAge, createPassword, letsStart1, letsStart2, letsStart3, goToApp1, goToApp2,
         sadas1, sadas2, goWalk, itWhistle1, itWhistle2, selfie, goodPic, postPic;
     
     public AudioClip firstSound, whatSound, whoIsLaxosSound, yourNameSound, createPasswordSound, letsStartSound, goToAppSound, sadasSound,
-        goWalkSound, itWhistleSound, selfieSound, goodPicSound, postPicSound;
+        goWalkSound, itWhistleSound, selfieSound, goodPicSound, postPicSound, bipSound, takePicSound;
 
     //[HideInInspector] string playerName, playerAge, playerPassword;
     GameObject phonePanel;
     public InputField playerName, playerAge, playerPassword;
-    public GameObject userName, userAge, userPassword, tutorialInterface;
+    public GameObject userName, userAge, userPassword, tutorialInterface, cameraButton, cameraInterface, bustoLight;
     string pName, pAge, pPassword;
 
     void Start ()
@@ -32,12 +32,15 @@ public class Tutorial : MonoBehaviour
         userAge.SetActive(false);
         userPassword.SetActive(false);
         phonePanel.SetActive(false);
+        cameraInterface.SetActive(false);
         tutorial = true;
         tutoWalk = false;
         phoneMode = false;
         endPhoneTutorial = false;
         sadasOpen = false;
         bustoCollide = false;
+        takePic = false;
+        tookPic = false;
         counter = 0;
 
         what = "Mas o quê...? Isso é sério? Logo agora?";
@@ -100,7 +103,7 @@ public class Tutorial : MonoBehaviour
                 counter = 0;
             }
         }
-        if (endPhoneTutorial && !sadasOpen)
+        if (endPhoneTutorial && !sadasOpen && !bustoCollide && !tookPic)
         {
             counter += Time.deltaTime;
 
@@ -166,27 +169,12 @@ public class Tutorial : MonoBehaviour
                 subtitle.text = "";
             }
         }
-        if (sadasOpen)
+        if (bustoCollide && !takePic)
         {
             counter += Time.deltaTime;
+            tutoWalk = false;
 
-            if (counter >= 1 && counter <= 5)
-            {
-                //audioSrc.PlayOneShot(goWalkSound);
-                subtitle.text = goWalk;
-                tutoWalk = true;
-            }
-            else if (counter >= 5)
-            {
-                subtitle.text = "";
-            }
-        }
-        if (bustoCollide)
-        {
-            counter += Time.deltaTime;
-            //tutoWalk = false;
-
-            if (counter >= 1 && counter <= 9)
+            if (counter >= 1 && counter <= 10)
             {
                 //audioSrc.PlayOneShot(itWhistleSound);
 
@@ -198,6 +186,44 @@ public class Tutorial : MonoBehaviour
                 {
                     subtitle.text = itWhistle2;
                 }
+                else if(counter >= 9 && counter <=10)
+                {
+                    subtitle.text = "";
+                    counter = 0;
+                    takePic = true;
+                }
+            }
+        }
+        if (takePic)
+        {
+            counter += Time.deltaTime;
+
+            if (counter >= 1 && counter <= 5)
+            {
+                //audioSrc.PlayOneShot(selfieSound);
+                subtitle.text = selfie;
+            }
+            else if (counter >= 5)
+            {
+                bustoLight.GetComponent<Light>().enabled = true;
+                cameraButton.GetComponent<Button>().enabled = true;
+                var tempColor = cameraButton.GetComponent<Image>().color;
+                tempColor.a = 0f;
+                cameraButton.GetComponent<Image>().color = tempColor;
+                subtitle.text = "";
+            }
+        }
+        if (tookPic)
+        {
+            counter += Time.deltaTime;
+
+            if(counter >= 1 && counter <= 4)
+            {
+                subtitle.text = goodPic;
+            }
+            else if(counter >= 4)
+            {
+                subtitle.text = "";
             }
         }
     }
@@ -264,11 +290,18 @@ public class Tutorial : MonoBehaviour
 
     public void SadasOpen()
     {
-        Debug.Log("aa");
-        sadasOpen = true;
         if (!sadasOpen)
         {
             counter = 0;
         }
+        sadasOpen = true;
+    }
+
+    public void TakePicture()
+    {
+        //audioSrc.PlayOneShot(takePicSound);
+        takePic = false;
+        tookPic = true;
+        counter = 0;
     }
 }

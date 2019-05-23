@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
         else RenderSettings.ambientLight = blueColor;
 
         // - comeco - apresentaçao
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        /*if (Input.GetKeyDown(KeyCode.Alpha1))
             insanity = 0;
         else if (Input.GetKeyDown(KeyCode.Alpha2))
             insanity = 25;
@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha4))
             insanity = 75;
         else if (Input.GetKeyDown(KeyCode.Alpha5))
-            insanity = 100;
+            insanity = 100;*/
 
         if(Input.GetKeyDown(KeyCode.Z))
         {

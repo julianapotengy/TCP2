@@ -11,6 +11,7 @@ public class PointerController : MonoBehaviour
     PlayerBehaviour player;
     float anglePointer;
     bool canAdd;
+    [SerializeField] Tutorial tutorial;
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class PointerController : MonoBehaviour
     private void Update()
     {
         // com input
-        if (Input.GetKey(KeyCode.LeftShift))
+        /*if (Input.GetKey(KeyCode.LeftShift))
         {
             if (canAdd)
             {
@@ -44,9 +45,9 @@ public class PointerController : MonoBehaviour
             {
                 canAdd = false;
             }
-        }
+        }*/
         
-        if(player.room1Time >= 5 && !Input.GetKey(KeyCode.A))
+        if((player.room1Time >= 5 && !Input.GetKey(KeyCode.A)) || tutorial.bustoCollide)
         {
             pointer.GetComponent<AudioSource>().enabled = true;
             if (pointer.GetComponent<Transform>().localRotation.z <= 0.45)
