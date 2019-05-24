@@ -32,12 +32,16 @@ public class PhoneManager : MonoBehaviour
     public GameObject tutorialInter;
     [Header("Objeto da interface da camera")]
     public GameObject cameraInter;
+    [Header("Objeto da interface do app")]
+    public GameObject appInter;
+
+    public GameObject postPic1Button;
 
     Tutorial tutorial;
     Light fLight;
 
     private bool inGallery, inImage, big, inRadar, canClick, openCam;
-    [HideInInspector] public bool phoneMode, inMenu, locked;
+    [HideInInspector] public bool phoneMode, inMenu, locked, inApp;
     string imgLastClick;
 
     private void Start()
@@ -52,6 +56,7 @@ public class PhoneManager : MonoBehaviour
         locked = true;
         canClick = false;
         openCam = false;
+        inApp = false;
 
         tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
@@ -66,6 +71,10 @@ public class PhoneManager : MonoBehaviour
             {
                 locked = !locked;
                 big = !big;
+                if(tutorial.takePic)
+                {
+                    tutorial.canSelfie = true;
+                }
             }
         }
         else
@@ -110,6 +119,27 @@ public class PhoneManager : MonoBehaviour
             }
         }
 
+        if (inApp)
+        {
+            radarInter.SetActive(false);
+            galleryInter.SetActive(false);
+            gameInter.SetActive(false);
+            tutorialInter.SetActive(false);
+            appInter.SetActive(true);
+            cameraInter.SetActive(false);
+            inGallery = false;
+            inRadar = false;
+        }
+        else if (!inApp)
+        {
+            gameInter.SetActive(true);
+            appInter.SetActive(false);
+            if (tutorial.tutorial)
+            {
+                tutorialInter.SetActive(true);
+            }
+        }
+
         if (inGallery)
         {
             gameInter.SetActive(false);
@@ -123,6 +153,15 @@ public class PhoneManager : MonoBehaviour
                 if(imgLastClick == "Image1")
                 {
                     imageInter[1].SetActive(true);
+                    if(!tutorial.canPost && tutorial.tutorial)
+                    {
+                        tutorial.canPost = true;
+                        postPic1Button.SetActive(true);
+                    }
+                }
+                if (imgLastClick == "Image2")
+                {
+                    imageInter[2].SetActive(true);
                 }
             }
             else if (!inImage)
@@ -134,6 +173,10 @@ public class PhoneManager : MonoBehaviour
                 if (imgLastClick == "Image1BIG")
                 {
                     imageInter[1].SetActive(false);
+                }
+                if (imgLastClick == "Image2BIG")
+                {
+                    imageInter[2].SetActive(false);
                 }
             }
         }
@@ -149,6 +192,10 @@ public class PhoneManager : MonoBehaviour
             }
             gameInter.SetActive(true);
             galleryInter.SetActive(false);
+            if(tutorial.tutorial)
+            {
+                tutorialInter.SetActive(true);
+            }
         }
 
         if(inRadar)
@@ -162,7 +209,7 @@ public class PhoneManager : MonoBehaviour
         {
             gameInter.SetActive(true);
             radarInter.SetActive(false);
-            if(tutorial.tutorial && tutorial.phoneMode)
+            if(tutorial.tutorial)
             {
                 tutorialInter.SetActive(true);
             }
@@ -223,6 +270,8 @@ public class PhoneManager : MonoBehaviour
 
         if (openCam)
         {
+            radarInter.SetActive(false);
+            galleryInter.SetActive(false);
             gameInter.SetActive(false);
             tutorialInter.SetActive(false);
             cameraInter.SetActive(true);
@@ -285,6 +334,15 @@ public class PhoneManager : MonoBehaviour
 
     public void OpenCamera()
     {
-        openCam = !openCam;
+        if(canClick)
+            openCam = !openCam;
+    }
+
+    public void OpenApp()
+    {
+        if(canClick)
+        {
+            inApp = !inApp;
+        }
     }
 }

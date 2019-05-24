@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Tutorial : MonoBehaviour
 {
     Text subtitle;
     AudioSource audioSrc;
-    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide, takePic, tookPic;
+    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide, takePic, tookPic, canSelfie, canPost, canBeep;
     [HideInInspector] public float counter;
 
     string what, whoIsLaxos1, whoIsLaxos2, yourName, yourAge, createPassword, letsStart1, letsStart2, letsStart3, goToApp1, goToApp2,
@@ -15,11 +16,11 @@ public class Tutorial : MonoBehaviour
     
     public AudioClip firstSound, whatSound, whoIsLaxosSound, yourNameSound, createPasswordSound, letsStartSound, goToAppSound, sadasSound,
         goWalkSound, itWhistleSound, selfieSound, goodPicSound, postPicSound, bipSound, takePicSound;
-
-    //[HideInInspector] string playerName, playerAge, playerPassword;
+    
     GameObject phonePanel;
     public InputField playerName, playerAge, playerPassword;
-    public GameObject userName, userAge, userPassword, tutorialInterface, cameraButton, cameraInterface, bustoLight;
+    public GameObject userName, userAge, userPassword, tutorialInterface, cameraButton, cameraInterface, bustoLight, galleryButton, tutoPic, 
+        postPicButton, appButton, phoneManager;
     string pName, pAge, pPassword;
 
     void Start ()
@@ -33,6 +34,8 @@ public class Tutorial : MonoBehaviour
         userPassword.SetActive(false);
         phonePanel.SetActive(false);
         cameraInterface.SetActive(false);
+        tutoPic.SetActive(false);
+        postPicButton.SetActive(false);
         tutorial = true;
         tutoWalk = false;
         phoneMode = false;
@@ -41,6 +44,9 @@ public class Tutorial : MonoBehaviour
         bustoCollide = false;
         takePic = false;
         tookPic = false;
+        canSelfie = false;
+        canPost = false;
+        canBeep = true;
         counter = 0;
 
         what = "Mas o quê...? Isso é sério? Logo agora?";
@@ -103,7 +109,7 @@ public class Tutorial : MonoBehaviour
                 counter = 0;
             }
         }
-        if (endPhoneTutorial && !sadasOpen && !bustoCollide && !tookPic)
+        if (endPhoneTutorial && !sadasOpen && !bustoCollide && !tookPic && !takePic && !canSelfie && !canPost)
         {
             counter += Time.deltaTime;
 
@@ -151,26 +157,30 @@ public class Tutorial : MonoBehaviour
                 else if (counter >= 28)
                 {
                     subtitle.text = "";
+                    endPhoneTutorial = false;
                 }
             }
         }
         if (sadasOpen)
         {
+            endPhoneTutorial = false;
             counter += Time.deltaTime;
 
-            if(counter >= 1 && counter <= 5)
+            if(counter >= 0 && counter <= 4)
             {
                 //audioSrc.PlayOneShot(goWalkSound);
                 subtitle.text = goWalk;
                 tutoWalk = true;
             }
-            else if(counter >= 5)
+            else if(counter >= 4)
             {
                 subtitle.text = "";
+                sadasOpen = false;
             }
         }
         if (bustoCollide && !takePic)
         {
+            endPhoneTutorial = false;
             counter += Time.deltaTime;
             tutoWalk = false;
 
@@ -178,13 +188,14 @@ public class Tutorial : MonoBehaviour
             {
                 //audioSrc.PlayOneShot(itWhistleSound);
 
-                if (counter >= 1 && counter <= 5)
+                if (counter >= 1 && counter <= 5 && canBeep)
                 {
                     subtitle.text = itWhistle1;
                 }
-                else if (counter >= 5 && counter <= 9)
+                else if (counter >= 5 && counter <= 9 && canBeep)
                 {
                     subtitle.text = itWhistle2;
+                    canBeep = false;
                 }
                 else if(counter >= 9 && counter <=10)
                 {
@@ -194,34 +205,56 @@ public class Tutorial : MonoBehaviour
                 }
             }
         }
-        if (takePic)
+        if (takePic && canSelfie)
         {
+            endPhoneTutorial = false;
             counter += Time.deltaTime;
 
             if (counter >= 1 && counter <= 5)
             {
                 //audioSrc.PlayOneShot(selfieSound);
+                bustoLight.GetComponent<Light>().enabled = true;
                 subtitle.text = selfie;
             }
             else if (counter >= 5)
             {
-                bustoLight.GetComponent<Light>().enabled = true;
                 cameraButton.GetComponent<Button>().enabled = true;
                 var tempColor = cameraButton.GetComponent<Image>().color;
                 tempColor.a = 0f;
                 cameraButton.GetComponent<Image>().color = tempColor;
                 subtitle.text = "";
+                canSelfie = false;
             }
         }
         if (tookPic)
         {
+            endPhoneTutorial = false;
             counter += Time.deltaTime;
 
             if(counter >= 1 && counter <= 4)
             {
                 subtitle.text = goodPic;
+                galleryButton.GetComponent<Button>().enabled = true;
+                var tempColor = galleryButton.GetComponent<Image>().color;
+                tempColor.a = 0f;
+                galleryButton.GetComponent<Image>().color = tempColor;
             }
             else if(counter >= 4)
+            {
+                subtitle.text = "";
+                tookPic = false;
+            }
+        }
+        if (canPost)
+        {
+            endPhoneTutorial = false;
+            counter += Time.deltaTime;
+
+            if (counter >= 1 && counter <= 4)
+            {
+                subtitle.text = postPic;
+            }
+            else if (counter >= 4)
             {
                 subtitle.text = "";
             }
@@ -303,5 +336,21 @@ public class Tutorial : MonoBehaviour
         takePic = false;
         tookPic = true;
         counter = 0;
+        tutoPic.SetActive(true);
+        bustoLight.GetComponent<Light>().enabled = false;
+    }
+
+    public void PostPicture()
+    {
+        postPicButton.SetActive(false);
+        appButton.GetComponent<Button>().enabled = true;
+        var tempColor = appButton.GetComponent<Image>().color;
+        tempColor.a = 0f;
+        appButton.GetComponent<Image>().color = tempColor;
+        phoneManager.GetComponent<PhoneManager>().inApp = true;
+        canPost = false;
+        tookPic = false;
+        counter = 0;
+        tutorial = false;
     }
 }
