@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PointerController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class PointerController : MonoBehaviour
     float anglePointer;
     bool canAdd;
     [SerializeField] Tutorial tutorial;
+    [SerializeField] Image termometro;
+    [SerializeField] Sprite[] termoImg;
 
     private void Start()
     {
@@ -46,8 +49,14 @@ public class PointerController : MonoBehaviour
                 canAdd = false;
             }
         }*/
-        
-        if((player.room1Time >= 5 && !Input.GetKey(KeyCode.A)) || tutorial.bustoCollide)
+
+        if(pointer.GetComponent<Transform>().localRotation.z <= 0.45)
+        {
+            termometro.sprite = termoImg[0];
+        }
+        else termometro.sprite = termoImg[1];
+
+        if ((player.room1Time >= 5 && !Input.GetKey(KeyCode.A)) || tutorial.bustoCollide)
         {
             pointer.GetComponent<AudioSource>().enabled = true;
             if (pointer.GetComponent<Transform>().localRotation.z <= 0.45)

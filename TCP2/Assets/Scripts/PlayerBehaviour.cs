@@ -14,7 +14,7 @@ public class PlayerBehaviour : MonoBehaviour
     public GameObject phone;
     public GameDesigner gameDesigner;
     EventsBehaviour eventsBehaviour;
-    Tutorial tutorialObj;
+    public Tutorial tutorialObj;
 
     private float goInsane;
     public float room1Time;
@@ -29,7 +29,7 @@ public class PlayerBehaviour : MonoBehaviour
         gameMngObj = GameObject.FindGameObjectWithTag("GameController");
         gameMng = gameMngObj.GetComponent<GameManager>();
         eventsBehaviour = gameMngObj.GetComponent<EventsBehaviour>();
-        tutorialObj = GameObject.Find("Tutorial").GetComponent<Tutorial>();
+        //tutorialObj = GameObject.Find("Tutorial").GetComponent<Tutorial>();
         canBip = true;
         doorCollide = false;
         body = GetComponent<Rigidbody>();

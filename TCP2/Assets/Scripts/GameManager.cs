@@ -22,16 +22,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Text subtitleText;
     [HideInInspector] public string doorColliderTxt;
+    [SerializeField] Tutorial tutorial;
 
     float doorCounter;
+    bool canWalk;
 
     void Awake()
     {
-        horizontal = "Horizontal";
-        vertical = "Vertical";
-        horizontalInsane = "HorizontalInsane";
-        verticalInsane = "VerticalInsane";
         subtitleText.text = "";
+        canWalk = false;
     }
 
     private void Start()
@@ -48,9 +47,19 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
+        if(tutorial.sadasOpen)
         {
-            SceneManager.LoadScene("Game");
+            canWalk = true;
+        }
+
+        if(canWalk)
+        {
+            horizontal = "Horizontal";
+            vertical = "Vertical";
+            horizontalInsane = "HorizontalInsane";
+            verticalInsane = "VerticalInsane";
+
+            ChangeInput();
         }
         
         PrivateLightController();
@@ -73,10 +82,10 @@ public class GameManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha5))
             insanity = 100;*/
 
-        if(Input.GetKeyDown(KeyCode.Z))
+        /*if(Input.GetKeyDown(KeyCode.Z))
         {
             fogParticle.SetActive(true);
-        }
+        }*/
         
         if(insanity < 75)
         {
@@ -91,8 +100,6 @@ public class GameManager : MonoBehaviour
                 changeInputSoma = 0;
             }
         }
-
-        ChangeInput();
 
         if(player.doorCollide)
         {

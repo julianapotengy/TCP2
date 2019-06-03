@@ -37,10 +37,11 @@ public class PhoneManager : MonoBehaviour
 
     public GameObject postPic1Button;
 
-    Tutorial tutorial;
+    public Tutorial tutorial;
     Light fLight;
+    [SerializeField] AudioSource[] audios;
 
-    private bool inGallery, inImage, big, inRadar, canClick, openCam;
+    private bool inGallery, inImage, big, inRadar, canClick, openCam, muted;
     [HideInInspector] public bool phoneMode, inMenu, locked, inApp;
     string imgLastClick;
 
@@ -57,8 +58,9 @@ public class PhoneManager : MonoBehaviour
         canClick = false;
         openCam = false;
         inApp = false;
+        muted = false;
 
-        tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
+        //tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
         fLight.enabled = false;
     }
@@ -325,6 +327,33 @@ public class PhoneManager : MonoBehaviour
     public void ToMenu(string name)
     {
         SceneManager.LoadScene(name);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+
+    public void MuteAudio()
+    {
+        muted = !muted;
+        if(!muted)
+        {
+            foreach (AudioSource a in audios)
+            {
+                a.mute = false;
+            }
+        }
+        else if(muted)
+        {
+            if (!muted)
+            {
+                foreach (AudioSource a in audios)
+                {
+                    a.mute = true;
+                }
+            }
+        }
     }
 
     public void Flashlight()

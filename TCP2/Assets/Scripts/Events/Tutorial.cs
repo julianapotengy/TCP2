@@ -20,7 +20,7 @@ public class Tutorial : MonoBehaviour
     GameObject phonePanel;
     public InputField playerName, playerAge, playerPassword;
     public GameObject userName, userAge, userPassword, tutorialInterface, cameraButton, cameraInterface, bustoLight, galleryButton, tutoPic, 
-        postPicButton, appButton, phoneManager;
+        postPicButton, appButton, phoneManager, userNameBG, userAgeBG, userPasswordBG, startBG, endConfigBG;
     string pName, pAge, pPassword;
 
     void Start ()
@@ -28,10 +28,15 @@ public class Tutorial : MonoBehaviour
         subtitle = GameObject.Find("Subtitle").GetComponent<Text>();
         audioSrc = GameObject.Find("Cellphone").GetComponent<AudioSource>();
         phonePanel = GameObject.Find("TutorialPanel");
+        startBG.SetActive(true);
+        endConfigBG.SetActive(false);
         tutorialInterface.SetActive(false);
         userName.SetActive(false);
         userAge.SetActive(false);
         userPassword.SetActive(false);
+        userNameBG.SetActive(false);
+        userAgeBG.SetActive(false);
+        userPasswordBG.SetActive(false);
         phonePanel.SetActive(false);
         cameraInterface.SetActive(false);
         tutoPic.SetActive(false);
@@ -72,191 +77,197 @@ public class Tutorial : MonoBehaviour
 	
 	void Update ()
     {
-        if (!phoneMode)
+        if(tutorial)
         {
-            counter += Time.deltaTime;
-            //Debug.Log("counter: " + counter);
+            if (!phoneMode)
+            {
+                counter += Time.deltaTime;
+                //Debug.Log("counter: " + counter);
 
-            if (counter >= 1 && counter <= 2)
-            {
-                subtitle.text = what;
-                //audioSrc.PlayOneShot(firstSound);
-            }
-            else if (counter >= 2 && counter <= 5)
-            {
-                subtitle.text = what;
-                //audioSrc.PlayOneShot(whatSound);
-            }
-            else if (counter >= 5)
-            {
-                //audioSrc.PlayOneShot(whoIsLaxosSound);
-                if (counter <= 8)
+                if (counter >= 1 && counter <= 2)
                 {
-                    subtitle.text = whoIsLaxos1;
+                    subtitle.text = what;
+                    //audioSrc.PlayOneShot(firstSound);
                 }
-                else if (counter <= 12 && counter >= 8)
+                else if (counter >= 2 && counter <= 5)
                 {
-                    subtitle.text = whoIsLaxos2;
+                    subtitle.text = what;
+                    //audioSrc.PlayOneShot(whatSound);
                 }
-            }
-            if (counter >= 12)
-            {
-                //audioSrc.PlayOneShot(yourNameSound);
-                subtitle.text = yourName;
-                phoneMode = true;
-                phonePanel.SetActive(true);
-                userName.SetActive(true);
-                counter = 0;
-            }
-        }
-        if (endPhoneTutorial && !sadasOpen && !bustoCollide && !tookPic && !takePic && !canSelfie && !canPost)
-        {
-            counter += Time.deltaTime;
-
-            if (counter >= 0 && counter <= 13)
-            {
-                //audioSrc.PlayOneShot(letsStart);
-                if (counter <= 4)
+                else if (counter >= 5)
                 {
-                    subtitle.text = letsStart1;
+                    //audioSrc.PlayOneShot(whoIsLaxosSound);
+                    if (counter <= 8)
+                    {
+                        subtitle.text = whoIsLaxos1;
+                    }
+                    else if (counter <= 12 && counter >= 8)
+                    {
+                        subtitle.text = whoIsLaxos2;
+                    }
                 }
-                else if (counter >= 4 && counter <= 9)
+                if (counter >= 12)
                 {
-                    subtitle.text = letsStart2;
-                }
-                else if (counter >= 9 && counter <= 13)
-                {
-                    subtitle.text = letsStart3;
-                }
-            }
-            else if(counter >= 13 && counter <= 21)
-            {
-                //audioSrc.PlayOneShot(goToAppSound);
-                phonePanel.SetActive(false);
-                tutorialInterface.SetActive(true);
-                if (counter <= 17)
-                {
-                    subtitle.text = goToApp1;
-                }
-                else if (counter >= 17 && counter <= 21)
-                {
-                    subtitle.text = goToApp2;
-                }
-            }
-            else if (counter >= 21 && counter <= 31)
-            {
-                //audioSrc.PlayOneShot(sadasSound);
-                if (counter <= 25)
-                {
-                    subtitle.text = sadas1;
-                }
-                else if (counter >= 25 && counter <= 28)
-                {
-                    subtitle.text = sadas2;
-                }
-                else if (counter >= 28)
-                {
-                    subtitle.text = "";
-                    endPhoneTutorial = false;
-                }
-            }
-        }
-        if (sadasOpen)
-        {
-            endPhoneTutorial = false;
-            counter += Time.deltaTime;
-
-            if(counter >= 0 && counter <= 4)
-            {
-                //audioSrc.PlayOneShot(goWalkSound);
-                subtitle.text = goWalk;
-                tutoWalk = true;
-            }
-            else if(counter >= 4)
-            {
-                subtitle.text = "";
-                sadasOpen = false;
-            }
-        }
-        if (bustoCollide && !takePic)
-        {
-            endPhoneTutorial = false;
-            counter += Time.deltaTime;
-            tutoWalk = false;
-
-            if (counter >= 1 && counter <= 10)
-            {
-                //audioSrc.PlayOneShot(itWhistleSound);
-
-                if (counter >= 1 && counter <= 5 && canBeep)
-                {
-                    subtitle.text = itWhistle1;
-                }
-                else if (counter >= 5 && counter <= 9 && canBeep)
-                {
-                    subtitle.text = itWhistle2;
-                    canBeep = false;
-                }
-                else if(counter >= 9 && counter <=10)
-                {
-                    subtitle.text = "";
+                    //audioSrc.PlayOneShot(yourNameSound);
+                    subtitle.text = yourName;
+                    phoneMode = true;
+                    startBG.SetActive(false);
+                    phonePanel.SetActive(true);
+                    userName.SetActive(true);
+                    userNameBG.SetActive(true);
                     counter = 0;
-                    takePic = true;
                 }
             }
-        }
-        if (takePic && canSelfie)
-        {
-            endPhoneTutorial = false;
-            counter += Time.deltaTime;
+            if (endPhoneTutorial && !sadasOpen && !bustoCollide && !tookPic && !takePic && !canSelfie && !canPost)
+            {
+                counter += Time.deltaTime;
 
-            if (counter >= 1 && counter <= 5)
-            {
-                //audioSrc.PlayOneShot(selfieSound);
-                bustoLight.GetComponent<Light>().enabled = true;
-                subtitle.text = selfie;
+                if (counter >= 0 && counter <= 13)
+                {
+                    //audioSrc.PlayOneShot(letsStart);
+                    if (counter <= 4)
+                    {
+                        subtitle.text = letsStart1;
+                    }
+                    else if (counter >= 4 && counter <= 9)
+                    {
+                        subtitle.text = letsStart2;
+                    }
+                    else if (counter >= 9 && counter <= 13)
+                    {
+                        subtitle.text = letsStart3;
+                    }
+                }
+                else if (counter >= 13 && counter <= 21)
+                {
+                    //audioSrc.PlayOneShot(goToAppSound);
+                    phonePanel.SetActive(false);
+                    tutorialInterface.SetActive(true);
+                    if (counter <= 17)
+                    {
+                        subtitle.text = goToApp1;
+                    }
+                    else if (counter >= 17 && counter <= 21)
+                    {
+                        subtitle.text = goToApp2;
+                    }
+                }
+                else if (counter >= 21 && counter <= 31)
+                {
+                    endConfigBG.SetActive(false);
+                    //audioSrc.PlayOneShot(sadasSound);
+                    if (counter <= 25)
+                    {
+                        subtitle.text = sadas1;
+                    }
+                    else if (counter >= 25 && counter <= 28)
+                    {
+                        subtitle.text = sadas2;
+                    }
+                    else if (counter >= 28)
+                    {
+                        subtitle.text = "";
+                        endPhoneTutorial = false;
+                    }
+                }
             }
-            else if (counter >= 5)
+            if (sadasOpen)
             {
-                cameraButton.GetComponent<Button>().enabled = true;
-                var tempColor = cameraButton.GetComponent<Image>().color;
-                tempColor.a = 0f;
-                cameraButton.GetComponent<Image>().color = tempColor;
-                subtitle.text = "";
-                canSelfie = false;
-            }
-        }
-        if (tookPic)
-        {
-            endPhoneTutorial = false;
-            counter += Time.deltaTime;
+                endPhoneTutorial = false;
+                counter += Time.deltaTime;
 
-            if(counter >= 1 && counter <= 4)
-            {
-                subtitle.text = goodPic;
-                galleryButton.GetComponent<Button>().enabled = true;
-                var tempColor = galleryButton.GetComponent<Image>().color;
-                tempColor.a = 0f;
-                galleryButton.GetComponent<Image>().color = tempColor;
+                if (counter >= 0 && counter <= 4)
+                {
+                    //audioSrc.PlayOneShot(goWalkSound);
+                    subtitle.text = goWalk;
+                    tutoWalk = true;
+                }
+                else if (counter >= 4)
+                {
+                    subtitle.text = "";
+                    sadasOpen = false;
+                }
             }
-            else if(counter >= 4)
+            if (bustoCollide && !takePic)
             {
-                subtitle.text = "";
-                tookPic = false;
-            }
-        }
-        if (canPost)
-        {
-            endPhoneTutorial = false;
-            counter += Time.deltaTime;
+                endPhoneTutorial = false;
+                counter += Time.deltaTime;
+                tutoWalk = false;
 
-            if (counter >= 1 && counter <= 4)
-            {
-                subtitle.text = postPic;
+                if (counter >= 1 && counter <= 10)
+                {
+                    //audioSrc.PlayOneShot(itWhistleSound);
+
+                    if (counter >= 1 && counter <= 5 && canBeep)
+                    {
+                        subtitle.text = itWhistle1;
+                    }
+                    else if (counter >= 5 && counter <= 9 && canBeep)
+                    {
+                        subtitle.text = itWhistle2;
+                        canBeep = false;
+                    }
+                    else if (counter >= 9 && counter <= 10)
+                    {
+                        subtitle.text = "";
+                        counter = 0;
+                        takePic = true;
+                    }
+                }
             }
-            else if (counter >= 4)
+            if (takePic && canSelfie)
             {
-                subtitle.text = "";
+                endPhoneTutorial = false;
+                counter += Time.deltaTime;
+
+                if (counter >= 1 && counter <= 5)
+                {
+                    //audioSrc.PlayOneShot(selfieSound);
+                    bustoLight.GetComponent<Light>().enabled = true;
+                    subtitle.text = selfie;
+                }
+                else if (counter >= 5)
+                {
+                    cameraButton.GetComponent<Button>().enabled = true;
+                    var tempColor = cameraButton.GetComponent<Image>().color;
+                    tempColor.a = 0f;
+                    cameraButton.GetComponent<Image>().color = tempColor;
+                    subtitle.text = "";
+                    canSelfie = false;
+                }
+            }
+            if (tookPic)
+            {
+                endPhoneTutorial = false;
+                counter += Time.deltaTime;
+
+                if (counter >= 0 && counter <= 3)
+                {
+                    subtitle.text = goodPic;
+                    galleryButton.GetComponent<Button>().enabled = true;
+                    var tempColor = galleryButton.GetComponent<Image>().color;
+                    tempColor.a = 0f;
+                    galleryButton.GetComponent<Image>().color = tempColor;
+                }
+                else if (counter >= 3)
+                {
+                    subtitle.text = "";
+                    tookPic = false;
+                }
+            }
+            if (canPost)
+            {
+                endPhoneTutorial = false;
+                counter += Time.deltaTime;
+
+                if (counter >= 0 && counter <= 3)
+                {
+                    subtitle.text = postPic;
+                }
+                else if (counter >= 3)
+                {
+                    subtitle.text = "";
+                }
             }
         }
     }
@@ -295,7 +306,9 @@ public class Tutorial : MonoBehaviour
             //audioSrc.PlayOneShot(yourAgeSound);
             pName = playerName.text;
             userName.SetActive(false);
+            userNameBG.SetActive(false);
             userAge.SetActive(true);
+            userAgeBG.SetActive(true);
         }
     }
 
@@ -307,7 +320,9 @@ public class Tutorial : MonoBehaviour
             //audioSrc.PlayOneShot(createPasswordSound);
             pAge = playerAge.text;
             userAge.SetActive(false);
+            userAgeBG.SetActive(false);
             userPassword.SetActive(true);
+            userPasswordBG.SetActive(true);
         }
     }
 
@@ -318,6 +333,8 @@ public class Tutorial : MonoBehaviour
             endPhoneTutorial = true;
             pPassword = playerPassword.text;
             userPassword.SetActive(false);
+            userPasswordBG.SetActive(false);
+            endConfigBG.SetActive(true);
         }
     }
 
@@ -351,6 +368,7 @@ public class Tutorial : MonoBehaviour
         canPost = false;
         tookPic = false;
         counter = 0;
+        subtitle.text = "";
         tutorial = false;
     }
 }
