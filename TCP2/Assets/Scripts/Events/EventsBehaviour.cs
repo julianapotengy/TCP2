@@ -15,6 +15,10 @@ public class EventsBehaviour : MonoBehaviour
     public GameObject passosLeftRoom;
     public GameObject shadowLeftRoom;
 
+    [SerializeField] AudioSource bookAudioSrc;
+    [SerializeField] AudioSource frameAudioSrc;
+    [SerializeField] AudioClip dropSound;
+
     [HideInInspector] public bool tutorial;
 
     void Awake()
@@ -70,17 +74,18 @@ public class EventsBehaviour : MonoBehaviour
 
     void FrameFalling()
     {
-        if (frameObj.transform.position.y >= 0.6f)
+        if (frameObj.transform.position.y >= 0.7f)
         {
             quadroPosition -= 0.05f;
             frameObj.transform.position = new Vector3(frameObj.transform.position.x, quadroPosition, frameObj.transform.position.z);
         }
+        else frameAudioSrc.PlayOneShot(dropSound);
     }
 
     void BookFalling()
     {
         book.GetComponent<Rigidbody>().AddForce(-Vector3.forward * 100, ForceMode.Acceleration);
-            //book.GetComponent<Rigidbody>().AddTorque(transform.right * 45);
+        bookAudioSrc.PlayOneShot(dropSound);
     }
 
     public void ShadowGone()

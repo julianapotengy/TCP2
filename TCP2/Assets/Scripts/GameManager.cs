@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
             canWalk = true;
         }
 
-        if(canWalk)
+        if (canWalk)
         {
             horizontal = "Horizontal";
             vertical = "Vertical";

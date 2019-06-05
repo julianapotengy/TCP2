@@ -63,7 +63,8 @@ public class Tutorial : MonoBehaviour
         letsStart1 = "Isso já é o suficiente para começarmos. Seu aparelho foi reconfigurado devido a um erro desconhecido, ";
         letsStart2 = "mas tentei manter inalterados os aplicativos de maior uso. Estou recuperando os arquivos ";
         letsStart3 = "salvos na rede. Assim que recuperá-los te notificarei para que possa baixá-los.";
-        goToApp1 = "Navegue por seus aplicativos para testar se funcionam. Caso precise de ajuda, clique ";
+        //goToApp1 = "Navegue por seus aplicativos para testar se funcionam. Caso precise de ajuda, clique ";
+        goToApp1 = "Navegue por seus aplicativos para testar se funcionam.";
         goToApp2 = "na interrogação no canto superior do ícone do aplicativo para mais detalhes.";
         sadas1 = "Era só o que me faltava. Eu sabia que deveria ter comprado um celular novo antes ";
         sadas2 = "de vir pra cá. Será que o SADAS ainda 'funciona'?";
@@ -138,7 +139,7 @@ public class Tutorial : MonoBehaviour
                         subtitle.text = letsStart3;
                     }
                 }
-                else if (counter >= 13 && counter <= 21)
+                else if (counter >= 13 && counter <= 21 - 4)
                 {
                     //audioSrc.PlayOneShot(goToAppSound);
                     phonePanel.SetActive(false);
@@ -147,24 +148,24 @@ public class Tutorial : MonoBehaviour
                     {
                         subtitle.text = goToApp1;
                     }
-                    else if (counter >= 17 && counter <= 21)
+                    /*else if (counter >= 17 && counter <= 21)
                     {
                         subtitle.text = goToApp2;
-                    }
+                    }*/
                 }
-                else if (counter >= 21 && counter <= 31)
+                else if (counter >= 21 - 4 && counter <= 31 - 4)
                 {
                     endConfigBG.SetActive(false);
                     //audioSrc.PlayOneShot(sadasSound);
-                    if (counter <= 25)
+                    if (counter <= 25 - 4)
                     {
                         subtitle.text = sadas1;
                     }
-                    else if (counter >= 25 && counter <= 28)
+                    else if (counter >= 25 - 4 && counter <= 28 - 4)
                     {
                         subtitle.text = sadas2;
                     }
-                    else if (counter >= 28)
+                    else if (counter >= 28 - 4)
                     {
                         subtitle.text = "";
                         endPhoneTutorial = false;
@@ -236,7 +237,7 @@ public class Tutorial : MonoBehaviour
                     canSelfie = false;
                 }
             }
-            if (tookPic)
+            if (tookPic && !canPost)
             {
                 endPhoneTutorial = false;
                 counter += Time.deltaTime;
@@ -349,12 +350,15 @@ public class Tutorial : MonoBehaviour
 
     public void TakePicture()
     {
-        //audioSrc.PlayOneShot(takePicSound);
-        takePic = false;
-        tookPic = true;
-        counter = 0;
-        tutoPic.SetActive(true);
-        bustoLight.GetComponent<Light>().enabled = false;
+        if(takePic)
+        {
+            tookPic = true;
+            counter = 0;
+            tutoPic.SetActive(true);
+            PlayerPrefs.SetInt("Unlocked 1", 1);
+            bustoLight.GetComponent<Light>().enabled = false;
+            takePic = false;
+        }
     }
 
     public void PostPicture()

@@ -1,0 +1,165 @@
+fileFormatVersion: 2
+guid: 42dc1bdeef900da44915b6cf03010b0b
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: Barba_professor
+    100002: blusa
+    100004: cabe_ac
+    100006: cabe_ap
+    100008: Cabelo_crian_a
+    100010: Cabelo_professor
+    100012: cal_a
+    100014: maos
+    100016: palet_
+    100018: perna
+    100020: Retopologia_crian_a
+    100022: Retopologia_professor
+    100024: sapato
+    100026: vestido
+    100028: //RootNode
+    400000: Barba_professor
+    400002: blusa
+    400004: cabe_ac
+    400006: cabe_ap
+    400008: Cabelo_crian_a
+    400010: Cabelo_professor
+    400012: cal_a
+    400014: maos
+    400016: palet_
+    400018: perna
+    400020: Retopologia_crian_a
+    400022: Retopologia_professor
+    400024: sapato
+    400026: vestido
+    400028: //RootNode
+    2100000: unnamed
+    2100002: None__ref_cabe_a_perfil_jpg
+    2100004: Material_001
+    2100006: Material
+    2300000: Barba_professor
+    2300002: blusa
+    2300004: cabe_ac
+    2300006: cabe_ap
+    2300008: Cabelo_crian_a
+    2300010: Cabelo_professor
+    2300012: cal_a
+    2300014: maos
+    2300016: palet_
+    2300018: perna
+    2300020: Retopologia_crian_a
+    2300022: Retopologia_professor
+    2300024: sapato
+    2300026: vestido
+    3300000: Barba_professor
+    3300002: blusa
+    3300004: cabe_ac
+    3300006: cabe_ap
+    3300008: Cabelo_crian_a
+    3300010: Cabelo_professor
+    3300012: cal_a
+    3300014: maos
+    3300016: palet_
+    3300018: perna
+    3300020: Retopologia_crian_a
+    3300022: Retopologia_professor
+    3300024: sapato
+    3300026: vestido
+    4300000: Barba_professor
+    4300002: blusa
+    4300004: Cabelo_crian_a
+    4300006: Cabelo_professor
+    4300008: cabe_ac
+    4300010: cabe_ap
+    4300012: cal_a
+    4300014: maos
+    4300016: palet_
+    4300018: perna
+    4300020: Retopologia_professor
+    4300022: sapato
+    4300024: vestido
+    4300026: Retopologia_crian_a
+    7400000: Default Take
+    9500000: //RootNode
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.04
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.03
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

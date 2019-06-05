@@ -34,16 +34,20 @@ public class PhoneManager : MonoBehaviour
     public GameObject cameraInter;
     [Header("Objeto da interface do app")]
     public GameObject appInter;
+    [Header("Legenda")]
+    public Text subtitle;
 
     public GameObject postPic1Button;
 
     public Tutorial tutorial;
     Light fLight;
     [SerializeField] AudioSource[] audios;
+    [SerializeField] AudioClip openPhoneClip, flashlightClip, takePicClip;
 
-    private bool inGallery, inImage, big, inRadar, canClick, openCam, muted;
-    [HideInInspector] public bool phoneMode, inMenu, locked, inApp;
+    private bool inGallery, inImage, big, inRadar, canClick, openCam, muted, canWalk, onPhone, canChange, tryedPic;
+    [HideInInspector] public bool phoneMode, inMenu, locked, inApp, canTakePic;
     string imgLastClick;
+    float picNOTTime;
 
     private void Start()
     {
@@ -59,8 +63,13 @@ public class PhoneManager : MonoBehaviour
         openCam = false;
         inApp = false;
         muted = false;
-
-        //tutorial = GameObject.Find("Tutorial").GetComponent<Tutorial>();
+        canWalk = false;
+        canTakePic = false;
+        onPhone = false;
+        canChange = false;
+        picNOTTime = 0;
+        tryedPic = false;
+        
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
         fLight.enabled = false;
     }
@@ -69,22 +78,23 @@ public class PhoneManager : MonoBehaviour
     {
         if(tutorial.bustoCollide)
         {
+            /*if (Input.GetKeyDown(KeyCode.E) && !inMenu)
+            {
+                Debug.Log("to no tuto.bustocollide");
+                OpenPhone();
+            }*/
+            canChange = true;
+        }
+        else if (tutorial.phoneMode)
+        {
+            onPhone = true;
+        }
+
+        if(canChange)
+        {
             if (Input.GetKeyDown(KeyCode.E) && !inMenu)
             {
-                locked = !locked;
-                big = !big;
-                if(tutorial.takePic)
-                {
-                    tutorial.canSelfie = true;
-                }
-            }
-        }
-        else
-        {
-            if (tutorial.phoneMode)
-            {
-                locked = false;
-                big = true;
+                OpenPhone();
             }
         }
 
@@ -233,16 +243,7 @@ public class PhoneManager : MonoBehaviour
         {
             blurImage.SetActive(true);
 
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
-            {
-                this.gameObject.transform.localPosition = new Vector3(-2f, 0.52f, 1.39f);
-                this.gameObject.transform.localScale = new Vector3(5.88f * 1.25f, 1.54f * 1.25f, 6.25f * 1.25f);
-                arm.transform.localPosition = new Vector3(0.5f, -0.5f, 0.35f);
-                phoneMode = false;
-                Cursor.visible = false;
-                canClick = false;
-            }
-            else if(Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
+            if (!tutorial.sadasOpen)
             {
                 this.gameObject.transform.localPosition = new Vector3(-1.88f, 0.52f, 1.39f);
                 this.gameObject.transform.localScale = new Vector3(5.88f * 1.7f, 1.54f * 1.7f, 6.25f * 1.7f);
@@ -250,6 +251,31 @@ public class PhoneManager : MonoBehaviour
                 phoneMode = true;
                 Cursor.visible = true;
                 canClick = true;
+            }
+            if(tutorial.sadasOpen)
+            {
+                canWalk = true;
+            }
+            if(canWalk)
+            {
+                if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+                {
+                    this.gameObject.transform.localPosition = new Vector3(-2f, 0.52f, 1.39f);
+                    this.gameObject.transform.localScale = new Vector3(5.88f * 1.25f, 1.54f * 1.25f, 6.25f * 1.25f);
+                    arm.transform.localPosition = new Vector3(0.5f, -0.5f, 0.35f);
+                    phoneMode = false;
+                    Cursor.visible = false;
+                    canClick = false;
+                }
+                else if (Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
+                {
+                    this.gameObject.transform.localPosition = new Vector3(-1.88f, 0.52f, 1.39f);
+                    this.gameObject.transform.localScale = new Vector3(5.88f * 1.7f, 1.54f * 1.7f, 6.25f * 1.7f);
+                    arm.transform.localPosition = new Vector3(0.626f, -0.3f, 0.35f);
+                    phoneMode = true;
+                    Cursor.visible = true;
+                    canClick = true;
+                }
             }
         }
         else if(!big)
@@ -288,6 +314,33 @@ public class PhoneManager : MonoBehaviour
             cameraInter.SetActive(false);
             gameInter.SetActive(true);
         }
+
+        if(onPhone)
+        {
+            locked = false;
+            big = true;
+        }
+        else if(!onPhone)
+        {
+            locked = true;
+            big = false;
+        }
+
+        if(tryedPic)
+        {
+            picNOTTime += Time.deltaTime;
+            
+            if(picNOTTime <= 2)
+            {
+                subtitle.text = "Isso não daria uma boa foto.";
+            }
+            else if(picNOTTime > 2)
+            {
+                subtitle.text = "";
+                picNOTTime = 0;
+                tryedPic = false;
+            }
+        }
     }
 
     public void GalleryButton()
@@ -316,12 +369,10 @@ public class PhoneManager : MonoBehaviour
     public void PauseGame()
     {
         inMenu = !inMenu;
-        if (!big)
-            big = true;
-        else if (big && locked)
-            big = false;
-        else if (big && !locked)
-            big = true;
+        if(!onPhone)
+        {
+            onPhone = true;
+        }
     }
 
     public void ToMenu(string name)
@@ -358,6 +409,7 @@ public class PhoneManager : MonoBehaviour
 
     public void Flashlight()
     {
+        audios[0].PlayOneShot(flashlightClip);
         fLight.enabled = !fLight.enabled;
     }
 
@@ -372,6 +424,35 @@ public class PhoneManager : MonoBehaviour
         if(canClick)
         {
             inApp = !inApp;
+        }
+    }
+
+    public void OpenPhone()
+    {
+        onPhone = !onPhone;
+        audios[0].PlayOneShot(openPhoneClip);
+
+        if (tutorial.takePic)
+        {
+            tutorial.canSelfie = true;
+        }
+    }
+
+    public void TakePic()
+    {
+        if(tutorial.tutorial)
+        {
+            canTakePic = true;
+        }
+
+        if(canTakePic)
+        {
+            audios[0].PlayOneShot(takePicClip);
+            canTakePic = false;
+        }
+        else if(!canTakePic)
+        {
+            tryedPic = true;
         }
     }
 }

@@ -33,15 +33,15 @@ public class RandComment : MonoBehaviour
         {
             counter += Time.deltaTime;
 
-            if (counter >= 3 && counter <= 6)
+            if (counter >= 2 && counter <= 4)
                 comments[0].gameObject.SetActive(true);
-            else if (counter >= 6 && counter <= 9)
+            else if (counter >= 4 && counter <= 6)
                 comments[1].gameObject.SetActive(true);
-            else if (counter >= 9 && counter <= 12)
+            else if (counter >= 6 && counter <= 8)
                 comments[2].gameObject.SetActive(true);
-            else if (counter >= 12 && counter <= 15)
+            else if (counter >= 8 && counter <= 10)
                 comments[3].gameObject.SetActive(true);
-            else if (counter >= 15 && counter <= 18)
+            else if (counter >= 10 && counter <= 12)
             {
                 comments[4].gameObject.SetActive(true);
                 canRand = false;

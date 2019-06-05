@@ -62,5 +62,10 @@ public class PointerController : MonoBehaviour
             if (pointer.GetComponent<Transform>().localRotation.z <= 0.45)
                 pointer.GetComponent<Transform>().Rotate(new Vector3(0, 0, anglePointer));
         }
+
+        if(!tutorial.bustoCollide && player.room1Time < 5)
+        {
+            termometro.sprite = termoImg[0];
+        }
     }
 }

@@ -18,10 +18,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     private float goInsane;
     public float room1Time;
-    [HideInInspector] public bool inLight, doorCollide;
+    [HideInInspector] public bool inLight, doorCollide, canWalk;
     [HideInInspector] public string horizontal, vertical;
     Rigidbody body;
     Vector3 inputs = Vector3.zero;
+
+    [SerializeField] AudioSource walkSrc;
 
     void Start ()
     {
@@ -33,25 +35,44 @@ public class PlayerBehaviour : MonoBehaviour
         canBip = true;
         doorCollide = false;
         body = GetComponent<Rigidbody>();
+        walkSrc.enabled = false;
+        canWalk = false;
     }
 	
 	void Update ()
     {
-        if (phone.GetComponent<PhoneManager>().locked)
+        if(tutorialObj.sadasOpen)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                Movement(gameDesigner.speed * gameDesigner.runSpeed);
-            }
-            else Movement(gameDesigner.speed);
+            canWalk = true;
         }
-        else
+        
+        if(canWalk)
         {
-            if (Input.GetKey(KeyCode.LeftShift))
+            if (phone.GetComponent<PhoneManager>().locked)
             {
-                Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Movement(gameDesigner.speed * gameDesigner.runSpeed);
+                }
+                else Movement(gameDesigner.speed);
             }
-            else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
+            else
+            {
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    Movement((gameDesigner.speed / gameDesigner.phoneSpeed) * gameDesigner.runSpeed);
+                }
+                else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
+            }
+
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                walkSrc.enabled = true;
+            }
+            else if (Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
+            {
+                walkSrc.enabled = false;
+            }
         }
 
         if (!tutorialObj.tutorial)
@@ -105,7 +126,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (hit.gameObject.tag.Equals("Door"))
+        if (hit.gameObject.tag.Equals("Desmoronamento"))
         {
             doorCollide = true;
         }
