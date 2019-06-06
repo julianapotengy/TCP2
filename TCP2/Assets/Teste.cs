@@ -18,8 +18,8 @@ public class Teste : MonoBehaviour
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, maxDistance) && hit.collider.gameObject.name.Equals("ShadowLeftRoom") && eventsBehaviour.shadowLeftRoom.GetComponent<ShadowBehaviour>().canFollow)
         {
-            eventsBehaviour.passosLeftRoom.SetActive(false);
-            Debug.Log("olhando");
+            Destroy(eventsBehaviour.passosLeftRoom);
+            //eventsBehaviour.passosLeftRoom.SetActive(false);
         }
     }
 }
