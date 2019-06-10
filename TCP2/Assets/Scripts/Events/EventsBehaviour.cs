@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventsBehaviour : MonoBehaviour 
 {
@@ -21,6 +22,12 @@ public class EventsBehaviour : MonoBehaviour
 
     [HideInInspector] public bool tutorial;
 
+    [SerializeField] Text subtitle;
+    float picCounter;
+    public bool canPic, tookPic, colPlayer, canIncreaseInsanity1, canIncreaseInsanity2;
+
+    public GameManager gameMng;
+
     void Awake()
     {
         frameObj = GameObject.Find("Frame");
@@ -34,6 +41,11 @@ public class EventsBehaviour : MonoBehaviour
         passosLeftRoom.SetActive(false);
         leftFirstEvent = true;
         leftRoom = 0;
+        canPic = false;
+        tookPic = false;
+        colPlayer = false;
+        canIncreaseInsanity1 = true;
+        canIncreaseInsanity2 = true;
     }
 
 	void Start ()
@@ -46,6 +58,18 @@ public class EventsBehaviour : MonoBehaviour
         if (leftRoom > 0)
         {
             LeftRoomEvent();
+        }
+
+        if(canPic)
+        {
+            picCounter += Time.deltaTime;
+
+            if(picCounter >= 3)
+            {
+                subtitle.text = "";
+                picCounter = 0;
+                canPic = false;
+            }
         }
     }
 
@@ -60,6 +84,12 @@ public class EventsBehaviour : MonoBehaviour
             {
                 BookFalling();
             }
+
+            if (canIncreaseInsanity1)
+            {
+                gameMng.insanity += 25;
+                canIncreaseInsanity1 = false;
+            }
         }
 
         if(leftCounter >= 5)
@@ -67,6 +97,11 @@ public class EventsBehaviour : MonoBehaviour
             if(leftFirstEvent)
             {
                 passosLeftRoom.SetActive(true);
+                if (canIncreaseInsanity2)
+                {
+                    gameMng.insanity += 25;
+                    canIncreaseInsanity2 = false;
+                }
                 leftFirstEvent = false;
             }
         }
@@ -84,12 +119,21 @@ public class EventsBehaviour : MonoBehaviour
 
     void BookFalling()
     {
-        book.GetComponent<Rigidbody>().AddForce(-Vector3.forward * 100, ForceMode.Acceleration);
+        book.GetComponent<Rigidbody>().AddForce(Vector3.forward * 100, ForceMode.Acceleration);
         bookAudioSrc.PlayOneShot(dropSound);
     }
 
     public void ShadowGone()
     {
         passosLeftRoom.SetActive(false);
+    }
+
+    public void RightPic()
+    {
+        if(!tookPic && colPlayer)
+        {
+            subtitle.text = "Isso daria uma boa foto.";
+            canPic = true;
+        }
     }
 }

@@ -37,7 +37,9 @@ public class PhoneManager : MonoBehaviour
     [Header("Legenda")]
     public Text subtitle;
 
-    public GameObject postPic1Button;
+    public EventsBehaviour eventsBhv;
+
+    public GameObject postPic1Button, image2, image3;
 
     public Tutorial tutorial;
     Light fLight;
@@ -48,6 +50,7 @@ public class PhoneManager : MonoBehaviour
     [HideInInspector] public bool phoneMode, inMenu, locked, inApp, canTakePic;
     string imgLastClick;
     float picNOTTime;
+    public bool won;
 
     private void Start()
     {
@@ -69,6 +72,7 @@ public class PhoneManager : MonoBehaviour
         canChange = false;
         picNOTTime = 0;
         tryedPic = false;
+        won = false;
         
         fLight = GameObject.Find("Flashlight").GetComponent<Light>();
         fLight.enabled = false;
@@ -76,13 +80,14 @@ public class PhoneManager : MonoBehaviour
 
     private void Update()
     {
-        if(tutorial.bustoCollide)
+        // apresentacao
+        /*if(won && Input.GetKey(KeyCode.RightShift))
         {
-            /*if (Input.GetKeyDown(KeyCode.E) && !inMenu)
-            {
-                Debug.Log("to no tuto.bustocollide");
-                OpenPhone();
-            }*/
+            SceneManager.LoadScene("Victory");
+        }*/
+
+        if(tutorial.bustoCollide || tutorial.skipTuto)
+        {
             canChange = true;
         }
         else if (tutorial.phoneMode)
@@ -96,11 +101,11 @@ public class PhoneManager : MonoBehaviour
             {
                 OpenPhone();
             }
-        }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            PauseGame();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PauseGame();
+            }
         }
 
         Conditions();
@@ -175,6 +180,11 @@ public class PhoneManager : MonoBehaviour
                 {
                     imageInter[2].SetActive(true);
                 }
+
+                if (imgLastClick == "Image3")
+                {
+                    imageInter[3].SetActive(true);
+                }
             }
             else if (!inImage)
             {
@@ -189,6 +199,10 @@ public class PhoneManager : MonoBehaviour
                 if (imgLastClick == "Image2BIG")
                 {
                     imageInter[2].SetActive(false);
+                }
+                if (imgLastClick == "Image3BIG")
+                {
+                    imageInter[3].SetActive(false);
                 }
             }
         }
@@ -252,7 +266,7 @@ public class PhoneManager : MonoBehaviour
                 Cursor.visible = true;
                 canClick = true;
             }
-            if(tutorial.sadasOpen)
+            if(tutorial.sadasOpen || tutorial.skipTuto)
             {
                 canWalk = true;
             }
@@ -440,13 +454,22 @@ public class PhoneManager : MonoBehaviour
 
     public void TakePic()
     {
-        if(tutorial.tutorial)
+        if(tutorial.tutorial || eventsBhv.canPic)
         {
             canTakePic = true;
         }
 
         if(canTakePic)
         {
+            if(eventsBhv.colPlayer)
+            {
+                image2.SetActive(true);
+                image3.SetActive(true);
+                eventsBhv.tookPic = true;
+                PlayerPrefs.SetInt("Unlocked 2", 1);
+                PlayerPrefs.SetInt("Unlocked 3", 1);
+                won = true;
+            }
             audios[0].PlayOneShot(takePicClip);
             canTakePic = false;
         }

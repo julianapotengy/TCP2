@@ -18,14 +18,22 @@ public class GameManager : MonoBehaviour
 
     [HideInInspector] public float insanityTimer, insanityLostInLoght, insanityLostNoLight, changeInputTimer, changeInputSoma;
     private string horizontal, vertical, horizontalInsane, verticalInsane;
-    bool changeInput;
+    bool changeInput, can25, can75;
 
     [SerializeField] private Text subtitleText;
     [HideInInspector] public string doorColliderTxt;
     [SerializeField] Tutorial tutorial;
 
     float doorCounter;
-    bool canWalk;
+    bool canWalk, canIncreaseInsanity;
+
+    [SerializeField] AudioClip children;
+    [SerializeField] AudioClip spongeBob;
+    [SerializeField] AudioSource audioSrc;
+
+    [SerializeField] Material wallMaterial;
+    [SerializeField] Texture wallTex;
+    [SerializeField] Texture bloodWallTex;
 
     void Awake()
     {
@@ -43,11 +51,14 @@ public class GameManager : MonoBehaviour
         RenderSettings.ambientLight = blueColor;
         fogParticle.SetActive(false);
         doorCounter = 0;
+        can25 = false;
+        can75 = false;
+        canIncreaseInsanity = true;
     }
 
     private void Update()
     {
-        if(tutorial.sadasOpen)
+        if(tutorial.skipTuto || tutorial.sadasOpen)
         {
             canWalk = true;
         }
@@ -67,20 +78,69 @@ public class GameManager : MonoBehaviour
         if(firstBox)
         {
             RenderSettings.ambientLight = redColor;
+            if (canIncreaseInsanity)
+            {
+                insanity += 25;
+                canIncreaseInsanity = false;
+            }
         }
         else RenderSettings.ambientLight = blueColor;
 
-        // - comeco - apresentaçao
-        /*if (Input.GetKeyDown(KeyCode.Alpha1))
-            insanity = 0;
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-            insanity = 25;
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-            insanity = 50;
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-            insanity = 75;
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-            insanity = 100;*/
+        // apresentaçao
+        /*if(!tutorial.tutorial)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                insanity = 0;
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                insanity = 25;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                insanity = 50;
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                insanity = 75;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                insanity = 100;
+            }
+        }*/
+
+        if(insanity >= 0 && insanity < 25)
+        {
+            can25 = true;
+            can75 = true;
+            wallMaterial.mainTexture = wallTex;
+        }
+        if(insanity >= 25 && insanity < 50)
+        {
+            if(can25)
+            {
+                audioSrc.PlayOneShot(children);
+                can25 = false;
+            }
+            can75 = true;
+            wallMaterial.mainTexture = wallTex;
+        }
+        if(insanity >= 50 && insanity < 75)
+        {
+            wallMaterial.mainTexture = bloodWallTex;
+        }
+        if(insanity >= 75 && insanity < 100)
+        {
+            if (can75)
+            {
+                audioSrc.PlayOneShot(spongeBob);
+                can75 = false;
+            }
+            can25 = true;
+            wallMaterial.mainTexture = bloodWallTex;
+        }
+        if(insanity >= 100)
+        {
+            SceneManager.LoadScene("Defeat");
+        }
 
         /*if(Input.GetKeyDown(KeyCode.Z))
         {
@@ -150,10 +210,10 @@ public class GameManager : MonoBehaviour
         else
         {
             // apresentacao
-            gLightInt = lastInt;
+            /*gLightInt = lastInt;
             gLightInt += Input.GetAxis("Mouse ScrollWheel");
-            gLightInt = Mathf.Clamp(gLightInt, 0, 3);
-            lastInt = gLightInt;
+            gLightInt = Mathf.Clamp(gLightInt, 0, 4);
+            lastInt = gLightInt;*/
         }
     }
 

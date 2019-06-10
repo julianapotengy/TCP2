@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -41,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
 	
 	void Update ()
     {
-        if(tutorialObj.sadasOpen)
+        if(tutorialObj.sadasOpen || tutorialObj.skipTuto)
         {
             canWalk = true;
         }
@@ -65,11 +66,11 @@ public class PlayerBehaviour : MonoBehaviour
                 else Movement(gameDesigner.speed / gameDesigner.phoneSpeed);
             }
 
-            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            if (Input.GetAxis(horizontal) != 0 || Input.GetAxis(vertical) != 0)
             {
                 walkSrc.enabled = true;
             }
-            else if (Input.GetAxis("Horizontal") == 0 || Input.GetAxis("Vertical") == 0)
+            else if (Input.GetAxis(horizontal) == 0 || Input.GetAxis(vertical) == 0)
             {
                 walkSrc.enabled = false;
             }
@@ -134,7 +135,11 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag.Equals("Insane"))
+        if (other.gameObject.name.Equals("Front Door") && phone.GetComponent<PhoneManager>().won)
+        {
+            SceneManager.LoadScene("Victory");
+        }
+        if (other.gameObject.tag.Equals("Insane"))
         {
             goInsane += 1;
         }
@@ -161,6 +166,29 @@ public class PlayerBehaviour : MonoBehaviour
             tutorialObj.counter = 0;
             tutorialObj.sadasOpen = false;
             gameMngObj.GetComponent<AudioSource>().PlayOneShot(bipSound);
+        }
+
+        if (other.gameObject.name.Equals("PicRightRoom"))
+        {
+            eventsBehaviour.colPlayer = true;
+            eventsBehaviour.RightPic();
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.name.Equals("PicRightRoom"))
+        {
+            eventsBehaviour.colPlayer = true;
+            eventsBehaviour.RightPic();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.name.Equals("PicRightRoom"))
+        {
+            eventsBehaviour.colPlayer = false;
         }
     }
 }

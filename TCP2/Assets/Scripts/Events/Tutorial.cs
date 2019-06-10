@@ -8,7 +8,7 @@ public class Tutorial : MonoBehaviour
 {
     Text subtitle;
     AudioSource audioSrc;
-    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide, takePic, tookPic, canSelfie, canPost, canBeep;
+    [HideInInspector] public bool tutorial, tutoWalk, phoneMode, endPhoneTutorial, sadasOpen, bustoCollide, takePic, tookPic, canSelfie, canPost, canBeep, skipTuto;
     [HideInInspector] public float counter;
 
     string what, whoIsLaxos1, whoIsLaxos2, yourName, yourAge, createPassword, letsStart1, letsStart2, letsStart3, goToApp1, goToApp2,
@@ -52,6 +52,7 @@ public class Tutorial : MonoBehaviour
         canSelfie = false;
         canPost = false;
         canBeep = true;
+        skipTuto = false;
         counter = 0;
 
         what = "Mas o quê...? Isso é sério? Logo agora?";
@@ -78,12 +79,39 @@ public class Tutorial : MonoBehaviour
 	
 	void Update ()
     {
+        if(skipTuto)
+        {
+            if(tutorial)
+            {
+                subtitle.text = "";
+                tutoPic.SetActive(true);
+                PlayerPrefs.SetInt("Unlocked 1", 1);
+                bustoLight.GetComponent<Light>().enabled = false;
+                //phoneManager.GetComponent<PhoneManager>().inApp = true;
+                startBG.SetActive(false);
+                endConfigBG.SetActive(false);
+                tutorialInterface.SetActive(false);
+                userName.SetActive(false);
+                userAge.SetActive(false);
+                userPassword.SetActive(false);
+                userNameBG.SetActive(false);
+                userAgeBG.SetActive(false);
+                userPasswordBG.SetActive(false);
+                phonePanel.SetActive(false);
+                postPicButton.SetActive(false);
+            }
+            tutorial = false;
+        }
         if(tutorial)
         {
+            if(Input.GetKey(KeyCode.RightShift))
+            {
+                skipTuto = true;
+            }
+            
             if (!phoneMode)
             {
                 counter += Time.deltaTime;
-                //Debug.Log("counter: " + counter);
 
                 if (counter >= 1 && counter <= 2)
                 {
